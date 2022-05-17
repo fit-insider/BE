@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FI.Data.Models.Meals.Types;
 
 namespace FI.Data.Models.Meals
 {
@@ -6,7 +7,13 @@ namespace FI.Data.Models.Meals
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<FoodEntity> FoodEntities { get; set; }
-        public ICollection<DailyMeals> DailyMeals { get; set; }
+        public string ImageURL { get; set; }
+        public List<DishType> DishTypes { get; set; }
+        public List<CuisineType> CuisineTypes { get; set; }
+        public List<MealType> MealTypes { get; set; }
+        public List<Caution> Cautions { get; set; }
+        public List<Nutrient> Nutrients { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
+       
     }
 }

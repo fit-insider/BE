@@ -27,6 +27,8 @@ namespace FI.Business.Meals
             double carb = calculateCarb(kcal, protein, fat);
 
             MealsGenerator mealsGenerator = new MealsGenerator(_context);
+            StiglerDiet solver = new StiglerDiet();
+            solver.solve();
             //int test = mealsGenerator.getMealsAsync(kcal,protein, carb, fat);
  
 

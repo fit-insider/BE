@@ -5,8 +5,10 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="Google.OrTools" Version="9.3.10497" />
     <PackageReference Include="IronPython" Version="2.7.12" />
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="RestSharp" Version="107.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Meals\Utils\" />
     <Folder Include="Users\" />
   </ItemGroup>
 

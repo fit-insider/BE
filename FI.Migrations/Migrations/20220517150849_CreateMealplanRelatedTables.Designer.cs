@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FI.Migrations.Migrations
 {
     [DbContext(typeof(FIContext))]
-    [Migration("20220515191709_CreateMealplanRelatedTables")]
+    [Migration("20220517150849_CreateMealplanRelatedTables")]
     partial class CreateMealplanRelatedTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,21 +20,6 @@ namespace FI.Migrations.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DailyMealsMeal", b =>
-                {
-                    b.Property<int>("DailyMealsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MealsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DailyMealsId", "MealsId");
-
-                    b.HasIndex("MealsId");
-
-                    b.ToTable("DailyMealsMeal");
-                });
 
             modelBuilder.Entity("FI.Data.Models.ApplicationVersions.ApplicationVersion", b =>
                 {
@@ -86,31 +71,36 @@ namespace FI.Migrations.Migrations
                     b.ToTable("DailyMeals");
                 });
 
-            modelBuilder.Entity("FI.Data.Models.Meals.FoodEntity", b =>
+            modelBuilder.Entity("FI.Data.Models.Meals.Ingredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Calories")
-                        .HasColumnType("float");
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Carb")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Fat")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Name")
+                    b.Property<int?>("MealId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Protein")
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Weight")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.ToTable("FoodEntities");
+                    b.HasIndex("MealId");
+
+                    b.ToTable("Ingredient");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Meals.Meal", b =>
@@ -120,10 +110,18 @@ namespace FI.Migrations.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("DailyMealsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DailyMealsId");
 
                     b.ToTable("Meals");
                 });
@@ -155,6 +153,112 @@ namespace FI.Migrations.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Mealplans");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Nutrient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("Nutrient");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Types.Caution", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("Caution");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Types.CuisineType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("CuisineType");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Types.DishType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("DishType");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Types.MealType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("MealType");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Users.User", b =>
@@ -204,42 +308,26 @@ namespace FI.Migrations.Migrations
                     b.ToTable("UserDetail");
                 });
 
-            modelBuilder.Entity("FoodEntityMeal", b =>
-                {
-                    b.Property<int>("FoodEntitiesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("mealsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FoodEntitiesId", "mealsId");
-
-                    b.HasIndex("mealsId");
-
-                    b.ToTable("FoodEntityMeal");
-                });
-
-            modelBuilder.Entity("DailyMealsMeal", b =>
-                {
-                    b.HasOne("FI.Data.Models.Meals.DailyMeals", null)
-                        .WithMany()
-                        .HasForeignKey("DailyMealsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FI.Data.Models.Meals.Meal", null)
-                        .WithMany()
-                        .HasForeignKey("MealsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("FI.Data.Models.Meals.DailyMeals", b =>
                 {
                     b.HasOne("FI.Data.Models.Meals.Mealplan", null)
                         .WithMany("DailyMeals")
                         .HasForeignKey("MealplanId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Ingredient", b =>
+                {
+                    b.HasOne("FI.Data.Models.Meals.Meal", null)
+                        .WithMany("Ingredients")
+                        .HasForeignKey("MealId");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Meal", b =>
+                {
+                    b.HasOne("FI.Data.Models.Meals.DailyMeals", null)
+                        .WithMany("Meals")
+                        .HasForeignKey("DailyMealsId");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Meals.Mealplan", b =>
@@ -249,6 +337,41 @@ namespace FI.Migrations.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Nutrient", b =>
+                {
+                    b.HasOne("FI.Data.Models.Meals.Meal", null)
+                        .WithMany("Nutrients")
+                        .HasForeignKey("MealId");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Types.Caution", b =>
+                {
+                    b.HasOne("FI.Data.Models.Meals.Meal", null)
+                        .WithMany("Cautions")
+                        .HasForeignKey("MealId");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Types.CuisineType", b =>
+                {
+                    b.HasOne("FI.Data.Models.Meals.Meal", null)
+                        .WithMany("CuisineTypes")
+                        .HasForeignKey("MealId");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Types.DishType", b =>
+                {
+                    b.HasOne("FI.Data.Models.Meals.Meal", null)
+                        .WithMany("DishTypes")
+                        .HasForeignKey("MealId");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.Types.MealType", b =>
+                {
+                    b.HasOne("FI.Data.Models.Meals.Meal", null)
+                        .WithMany("MealTypes")
+                        .HasForeignKey("MealId");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Users.UserDetail", b =>
@@ -262,19 +385,24 @@ namespace FI.Migrations.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FoodEntityMeal", b =>
+            modelBuilder.Entity("FI.Data.Models.Meals.DailyMeals", b =>
                 {
-                    b.HasOne("FI.Data.Models.Meals.FoodEntity", null)
-                        .WithMany()
-                        .HasForeignKey("FoodEntitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Meals");
+                });
 
-                    b.HasOne("FI.Data.Models.Meals.Meal", null)
-                        .WithMany()
-                        .HasForeignKey("mealsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("FI.Data.Models.Meals.Meal", b =>
+                {
+                    b.Navigation("Cautions");
+
+                    b.Navigation("CuisineTypes");
+
+                    b.Navigation("DishTypes");
+
+                    b.Navigation("Ingredients");
+
+                    b.Navigation("MealTypes");
+
+                    b.Navigation("Nutrients");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Meals.Mealplan", b =>

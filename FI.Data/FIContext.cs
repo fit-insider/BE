@@ -25,7 +25,6 @@ namespace FI.Data
         public virtual DbSet<Mealplan> Mealplans { get; set; }
         public virtual DbSet<DailyMeals> DailyMeals { get; set; }
         public virtual DbSet<Meal> Meals { get; set; }
-        public virtual DbSet<FoodEntity> FoodEntities { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
