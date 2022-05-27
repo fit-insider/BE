@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FluentValidation.AspNetCore;
 using FI.API.Middleware;
+using Microsoft.OpenApi.Models;
 
 namespace FI.API
 {
@@ -39,6 +40,11 @@ namespace FI.API
                 options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"), op => op.MigrationsAssembly("FI.Migrations"));
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fit Insider API", Version = "v1" });
+            });
+
             services.AddControllers();
             services.AddMediatR(typeof(GetVersionQueryHandler));
 
@@ -56,6 +62,13 @@ namespace FI.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("v1/swagger.json", "Fit Insider API V1");
+                });
             }
 
             app.UseMiddleware<CustomExceptionMiddleware>();

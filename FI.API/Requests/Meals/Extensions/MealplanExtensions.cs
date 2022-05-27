@@ -25,6 +25,7 @@ namespace FI.API.Requests.Meals
                 WaterIntake = request.WaterIntake,
                 MealplanType = request.MealplanType,
                 MealsCount = request.MealsCount,
+                ExcludedFoods = request.ExcludedFoods
             };
         }
 

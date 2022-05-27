@@ -1,4 +1,7 @@
-﻿using FI.Business.Meals.Commands;
+﻿using System.Collections;
+using System.Collections.Generic;
+using FI.Business.Meals.Commands;
+using FI.Business.Meals.Utils;
 using FI.Data;
 using FI.Data.Models.Meals;
 
@@ -26,19 +29,31 @@ namespace FI.Business.Meals
             double fat = calculateFat(command);
             double carb = calculateCarb(kcal, protein, fat);
 
-            MealsGenerator mealsGenerator = new MealsGenerator(_context);
-            StiglerDiet solver = new StiglerDiet();
-            solver.solve();
-            //int test = mealsGenerator.getMealsAsync(kcal,protein, carb, fat);
- 
+            MealPreferences preferences = new MealPreferences { 
+                Type = command.MealplanType,
+                ExcludedFoods = command.ExcludedFoods,
+                MealsCount = command.MealsCount
+            };
 
+            DailyConstraints constraints = new DailyConstraints
+            {
+                Kcal = kcal,
+                Protein = protein,
+                Carb = carb,
+                Fat = fat
+            };
+
+            MealsGenerator mealsGenerator = new MealsGenerator(preferences, constraints);
+            ICollection<DailyMeals> dailyMeals = mealsGenerator.getDailyMeals();
+ 
 
             return new Mealplan
             {
                 Calories = kcal,
                 Protein = protein,
                 Fat = fat,
-                Carb = carb
+                Carb = carb,
+                DailyMeals = dailyMeals
             };
         }
 

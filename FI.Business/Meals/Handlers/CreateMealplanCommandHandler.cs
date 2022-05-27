@@ -12,7 +12,7 @@ using FI.Data.Models.Meals;
 
 namespace FI.Business.Meals.Handlers
 {
-    public class CreateMealplanCommandHandler : IRequestHandler<CreateMealplanCommand, bool>
+    public class CreateMealplanCommandHandler : IRequestHandler<CreateMealplanCommand, Mealplan>
     {
         private readonly FIContext _context;
         private User _user;
@@ -22,7 +22,7 @@ namespace FI.Business.Meals.Handlers
             _context = context;
         }
 
-        public async Task<bool> Handle(CreateMealplanCommand command, CancellationToken token)
+        public async Task<Mealplan> Handle(CreateMealplanCommand command, CancellationToken token)
         {
             await ValidateIfUserExists(command.UserId);
 
@@ -34,7 +34,7 @@ namespace FI.Business.Meals.Handlers
             //_context.Meals.Add(command.ToMeal(_user));
 
             await _context.SaveChangesAsync(token);
-            return true;
+            return mealplan;
         }
 
         public async Task ValidateIfUserExists(int userId)

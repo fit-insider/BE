@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using FI.Data.Models.Meals;
+using MediatR;
 
 namespace FI.Business.Meals.Commands
 {
-    public class CreateMealplanCommand : IRequest<bool>
+    public class CreateMealplanCommand : IRequest<Mealplan>
     {
         public int UserId { get; set; }
         public string Gender { get; set; }
@@ -19,5 +20,6 @@ namespace FI.Business.Meals.Commands
         public int WaterIntake { get; set; }
         public string MealplanType { get; set; }
         public int MealsCount { get; set; }
+        public string[] ExcludedFoods { get; set; }
     }
 }
