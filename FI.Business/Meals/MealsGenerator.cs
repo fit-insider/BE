@@ -51,7 +51,7 @@ namespace FI.Business.Meals
             }
 
             SolverResultErrorComparer comparer = new SolverResultErrorComparer();
-            List<SolverResult> filteredSolutions = solutions.Where(x => !containsTooBigMeals(x.SolutionValues)).ToList();
+            List<SolverResult> filteredSolutions = solutions.Where(x => !containsAnormalMeals(x.SolutionValues)).ToList();
             filteredSolutions.Sort(comparer);
 
             List<DailyMeals> dailyMeals = new List<DailyMeals>();
@@ -70,11 +70,11 @@ namespace FI.Business.Meals
             return dailyMeals;
         }
 
-        private bool containsTooBigMeals(List<double> values)
+        private bool containsAnormalMeals(List<double> values)
         {
             for(int i = 0; i < values.Count; i++)
             {
-                if(values.ElementAt(i) >= 7.5)
+                if(values.ElementAt(i) <= 1.5 || values.ElementAt(i) >= 7.5)
                 {
                     return true;
                 }

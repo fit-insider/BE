@@ -74,7 +74,10 @@ namespace FI.Business.Meals.Utils
 
             foreach (string excludedFood in _preferences.ExcludedFoods)
             {
-                request.AddQueryParameter("health", excludedFood);
+                if(excludedFood != "nothing")
+                {
+                    request.AddQueryParameter("health", excludedFood);
+                }
             }
 
             var apiResponse = client.ExecuteGetAsync(request).Result;

@@ -79,7 +79,7 @@ namespace FI.API.Requests.Meals
 
             RuleFor(x => x.MealplanType)
                .NotEmpty().WithMessage("Invalid mealplan type!")
-               .Matches(@"^(general|vegetarian)$").WithMessage("Invalid mealplan type!");
+               .Matches(@"^(general|vegetarian|vegan)$").WithMessage("Invalid mealplan type!");
 
             RuleFor(x => x.MealsCount)
            .LessThanOrEqualTo(6).WithMessage("Invalid meals count!")
