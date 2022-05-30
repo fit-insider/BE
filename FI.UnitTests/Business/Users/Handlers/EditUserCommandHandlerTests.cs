@@ -49,7 +49,7 @@ namespace FI.UnitTests.Business.Users.Handlers
 
             var correctEditedUser = new BusinessModel.UserDetail
             {
-                UserId = 1,
+                UserId = "1",
                 FirstName = "John",
                 LastName = "Doe"
             };
@@ -64,7 +64,7 @@ namespace FI.UnitTests.Business.Users.Handlers
 
             var correctEditedUser = new BusinessModel.UserDetail
             {
-                UserId = 1,
+                UserId = "1",
                 FirstName = "John",
                 LastName = "Doe",
             };
@@ -77,7 +77,7 @@ namespace FI.UnitTests.Business.Users.Handlers
         {
             var cex = new CustomException(ErrorCode.EditUser_User, "User does not exist!");
 
-            _command.Id = 10;
+            _command.Id = "10";
 
             Func<Task> action = async () => await _handler.Handle(_command, new CancellationToken());
 
@@ -112,7 +112,7 @@ namespace FI.UnitTests.Business.Users.Handlers
             {
                 new DataModel.User
                 {
-                    Id = 1,
+                    Id = "1",
                     Email = "one@email.com",
                     Detail = new DataModel.UserDetail
                     {
@@ -123,7 +123,7 @@ namespace FI.UnitTests.Business.Users.Handlers
                 },
                 new DataModel.User
                 {
-                    Id = 2,
+                    Id = "2",
                     Email = "two@email.com",
                     Detail = new DataModel.UserDetail
                     {
@@ -134,7 +134,7 @@ namespace FI.UnitTests.Business.Users.Handlers
                 },
                 new DataModel.User
                 {
-                    Id = 3,
+                    Id = "3",
                     Email = "three@email.com",
                     Detail = new DataModel.UserDetail
                     {
@@ -152,7 +152,7 @@ namespace FI.UnitTests.Business.Users.Handlers
         {
             _command = new EditUserCommand
             {
-                Id = 1,
+                Id = "1",
                 Email = "one@email.com",
                 OldPassword = "onePassword",
                 NewPassword = "newPassword",

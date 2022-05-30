@@ -4,7 +4,7 @@ namespace FI.API.Requests.Meals
 {
     public class CreateMealplanRequest
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string Gender { get; set; }
         public string Target { get; set; }
         public double Height { get; set; }
@@ -26,9 +26,6 @@ namespace FI.API.Requests.Meals
     {
         public CreateMealplanRequestValidator()
         {
-            RuleFor(x => x.UserId)
-                .GreaterThan(0);
-
             RuleFor(x => x.Gender)
                 .NotEmpty().WithMessage("Invalid gender!")
                 .Matches(@"^(male|female)$").WithMessage("Invalid gender!");

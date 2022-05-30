@@ -4,8 +4,8 @@ namespace FI.API.Requests.Meals
 {
     public class GetMealplanRequest
     {
-        public int UserId { get; set; }
-        public int MealplanId { get; set; }
+        public string UserId { get; set; }
+        public string MealplanId { get; set; }
     }
 
     public class GetMealplanRequestValidator : AbstractValidator<GetMealplanRequest>
@@ -13,10 +13,10 @@ namespace FI.API.Requests.Meals
         public GetMealplanRequestValidator()
         {
             RuleFor(x => x.MealplanId)
-                .GreaterThan(0);
+                .NotEmpty();
 
             RuleFor(x => x.UserId)
-                .GreaterThan(0);
+                .NotEmpty();
         }
     }
 }

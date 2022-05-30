@@ -4,7 +4,7 @@ namespace FI.API.Requests.Users
 {
     public class EditUserRequest : BaseUserRequest
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string OldPassword { get; set; }
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }

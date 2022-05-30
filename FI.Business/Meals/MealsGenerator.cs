@@ -62,6 +62,7 @@ namespace FI.Business.Meals
                 ICollection<Meal> processedMeals = processResultMeals(result);
                 dailyMeals.Add(new DailyMeals
                 {
+                    Id = i,
                     Meals = processedMeals
                 });
 
@@ -74,7 +75,7 @@ namespace FI.Business.Meals
         {
             for(int i = 0; i < values.Count; i++)
             {
-                if(values.ElementAt(i) <= 1.5 || values.ElementAt(i) >= 7.5)
+                if(values.ElementAt(i) < 1 || values.ElementAt(i) > 8)
                 {
                     return true;
                 }
@@ -90,6 +91,8 @@ namespace FI.Business.Meals
             for (int i = 0; i < resultMeals.Count; i++)
             {
                 Meal meal = resultMeals.ElementAt(i);
+                meal.Id = i;
+
                 double solutionValue = result.SolutionValues.ElementAt(i);
 
                 double totalWeight = 0;

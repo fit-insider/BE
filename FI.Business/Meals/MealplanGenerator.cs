@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using FI.Business.Meals.Commands;
 using FI.Business.Meals.Utils;
@@ -45,15 +46,36 @@ namespace FI.Business.Meals
 
             MealsGenerator mealsGenerator = new MealsGenerator(preferences, constraints);
             ICollection<DailyMeals> dailyMeals = mealsGenerator.getDailyMeals();
- 
+
+
+            MealplanData mealplanData = new MealplanData
+            {
+                Gender = command.Gender,
+                Target = command.Target,
+                Height = command.Height,
+                Weight = command.Weight,
+                Age = command.Age,
+                HeightUnit = command.HeightUnit,
+                WeightUnit = command.WeightUnit,
+                Body = command.Body,
+                UsualActivity = command.UsualActivity,
+                PhisicalActivity = command.PhisicalActivity,
+                Sleep = command.Sleep,
+                WaterIntake = command.WaterIntake,
+                MealplanType = command.MealplanType,
+                MealsCount = command.MealsCount
+            };
 
             return new Mealplan
             {
+                Id = Guid.NewGuid().ToString(),
+                UserId = command.UserId,
                 Calories = kcal,
                 Protein = protein,
                 Fat = fat,
                 Carb = carb,
-                DailyMeals = dailyMeals
+                DailyMeals = dailyMeals,
+                MealplanData = mealplanData
             };
         }
 

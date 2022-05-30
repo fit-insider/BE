@@ -24,10 +24,6 @@ namespace FI.Business.Meals.Handlers
 
         public async Task<Mealplan> Handle(CreateMealplanCommand command, CancellationToken token)
         {
-            await ValidateIfUserExists(command.UserId);
-
-            Console.WriteLine(command);
-
             MealplanGenerator mealplanGenerator = new MealplanGenerator(_context);
             Mealplan mealplan = mealplanGenerator.GenerateMealPlan(command);
 
@@ -35,24 +31,6 @@ namespace FI.Business.Meals.Handlers
 
             await _context.SaveChangesAsync(token);
             return mealplan;
-        }
-
-        public async Task ValidateIfUserExists(int userId)
-        {
-            _user = await _context.Users
-                .Where(u => u.Id == userId)
-                .FirstOrDefaultAsync();
-
-            if (_user is null)
-            {
-                throw new CustomException(ErrorCode.CreateMealplan_user, "User does not exist!");
-            }
-        }
-
-        private Mealplan GenerateNewMealplan(CreateMealplanCommand command)
-        {
-            return new Mealplan();
-
         }
     }
 }

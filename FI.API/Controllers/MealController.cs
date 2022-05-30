@@ -38,7 +38,7 @@ namespace FI.API.Controllers
         }
 
         [HttpGet("mealplans/{id}")]
-        public async Task<ActionResult<UserIdentifier>> GetMealplans([FromRoute] int id)
+        public async Task<ActionResult<UserIdentifier>> GetMealplans([FromRoute] string id)
         {
             var result = await _mediator.Send(new GetMealplansQuery { UserId = id });
 

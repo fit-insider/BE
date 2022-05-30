@@ -36,7 +36,7 @@ namespace FI.Business.Users.Handlers
             return command.ToUserDetails();
         }
         
-        private async Task ValidateIfUserExists(int userId)
+        private async Task ValidateIfUserExists(string userId)
         {
             _dbUser = await _context.Users
                 .Include(u => u.Detail)

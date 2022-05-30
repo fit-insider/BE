@@ -29,7 +29,7 @@ namespace FI.UnitTests.Business.Users.UserExtensionsTests
         [Test]
         public void ShouldReturnUserDetailsWithCorrectId()
         {
-            _userDetail.UserId.Should().Be(1);
+            _userDetail.UserId.Should().Be("1");
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace FI.UnitTests.Business.Users.UserExtensionsTests
         {
             _command = new EditUserCommand
             {
-                Id = 1,
+                Id = "1",
                 Email = "john@doe.com",
                 OldPassword = "password1",
                 NewPassword = "newpassword",

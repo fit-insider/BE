@@ -8,6 +8,6 @@ namespace FI.Business.Meals.Queries
 {
     public class GetMealplansQuery : IRequest<PageInfo<Mealplan>>
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

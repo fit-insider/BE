@@ -1,11 +1,14 @@
-﻿using FI.Data.Models.Meals;
-using MediatR;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FI.Business.Meals.Commands
+namespace FI.Data.Models.Meals
 {
-    public class CreateMealplanCommand : IRequest<Mealplan>
-    {
-        public string UserId { get; set; }
+    public class MealplanData
+    { 
+        public int Id { get; set; }
         public string Gender { get; set; }
         public string Target { get; set; }
         public double Height { get; set; }
@@ -20,6 +23,5 @@ namespace FI.Business.Meals.Commands
         public int WaterIntake { get; set; }
         public string MealplanType { get; set; }
         public int MealsCount { get; set; }
-        public string[] ExcludedFoods { get; set; }
     }
 }

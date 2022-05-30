@@ -16,7 +16,7 @@ namespace FI.UnitTests.Api.Controllers.UserControllerTests
     {
         private UserController _controller;
         private Mock<IMediator> _mediator;
-        private int _request;
+        private string _request;
 
         [SetUp]
         public void Init()
@@ -55,7 +55,7 @@ namespace FI.UnitTests.Api.Controllers.UserControllerTests
 
         private void CreateRequest()
         {
-            _request = 1;
+            _request = "1";
         }
     }
 }

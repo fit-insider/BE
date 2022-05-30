@@ -5,7 +5,7 @@ namespace FI.Business.Meals.Queries
 {
     public class GetMealplanQuery : IRequest<Mealplan>
     {
-        public int UserId { get; set; }
-        public int MealplanId { get; set; }
+        public string UserId { get; set; }
+        public string MealplanId { get; set; }
     }
 }

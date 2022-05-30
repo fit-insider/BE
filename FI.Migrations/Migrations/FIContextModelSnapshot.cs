@@ -59,8 +59,8 @@ namespace FI.Migrations.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MealplanId")
-                        .HasColumnType("int");
+                    b.Property<string>("MealplanId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -121,15 +121,13 @@ namespace FI.Migrations.Migrations
 
                     b.HasIndex("DailyMealsId");
 
-                    b.ToTable("Meals");
+                    b.ToTable("Meal");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Meals.Mealplan", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Calories")
                         .HasColumnType("float");
@@ -140,17 +138,76 @@ namespace FI.Migrations.Migrations
                     b.Property<double>("Fat")
                         .HasColumnType("float");
 
+                    b.Property<int?>("MealplanDataId")
+                        .HasColumnType("int");
+
                     b.Property<double>("Protein")
                         .HasColumnType("float");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MealplanDataId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Mealplans");
+                });
+
+            modelBuilder.Entity("FI.Data.Models.Meals.MealplanData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Height")
+                        .HasColumnType("float");
+
+                    b.Property<string>("HeightUnit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MealplanType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MealsCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PhisicalActivity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sleep")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Target")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsualActivity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WaterIntake")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Weight")
+                        .HasColumnType("float");
+
+                    b.Property<string>("WeightUnit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MealplanData");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Meals.Nutrient", b =>
@@ -261,10 +318,8 @@ namespace FI.Migrations.Migrations
 
             modelBuilder.Entity("FI.Data.Models.Users.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -281,10 +336,8 @@ namespace FI.Migrations.Migrations
 
             modelBuilder.Entity("FI.Data.Models.Users.UserDetail", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -295,13 +348,14 @@ namespace FI.Migrations.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("UserDetail");
                 });
@@ -310,8 +364,7 @@ namespace FI.Migrations.Migrations
                 {
                     b.HasOne("FI.Data.Models.Meals.Mealplan", null)
                         .WithMany("DailyMeals")
-                        .HasForeignKey("MealplanId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("MealplanId");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Meals.Ingredient", b =>
@@ -330,11 +383,16 @@ namespace FI.Migrations.Migrations
 
             modelBuilder.Entity("FI.Data.Models.Meals.Mealplan", b =>
                 {
+                    b.HasOne("FI.Data.Models.Meals.MealplanData", "MealplanData")
+                        .WithMany()
+                        .HasForeignKey("MealplanDataId");
+
                     b.HasOne("FI.Data.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("MealplanData");
                 });
 
             modelBuilder.Entity("FI.Data.Models.Meals.Nutrient", b =>
@@ -376,9 +434,7 @@ namespace FI.Migrations.Migrations
                 {
                     b.HasOne("FI.Data.Models.Users.User", "User")
                         .WithOne("Detail")
-                        .HasForeignKey("FI.Data.Models.Users.UserDetail", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FI.Data.Models.Users.UserDetail", "UserId");
 
                     b.Navigation("User");
                 });

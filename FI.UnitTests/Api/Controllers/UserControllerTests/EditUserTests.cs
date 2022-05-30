@@ -18,14 +18,14 @@ namespace FI.UnitTests.Api.Controllers.UserControllerTests
         private UserController _controller;
         private Mock<IMediator> _mediator;
         private EditUserRequest _request;
-        private int _id;
+        private string _id;
 
         [SetUp]
         public void Init()
         {
             _mediator = new Mock<IMediator>();
             _controller = new UserController(_mediator.Object);
-            _id = 1;
+            _id = "1";
 
             CreateRequest();
         }
