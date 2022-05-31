@@ -36,6 +36,14 @@ namespace FI.Business.Users
             };
         }
 
+        public static BusinessModel.Identifier ToIdentifier(this ChangePasswordCommand command)
+        {
+            return new BusinessModel.Identifier
+            {
+                UserId = command.Id
+            };
+        }
+
         public static IQueryable<BusinessModel.UserIdentifier> ToUserIdentifier(this IQueryable<DataModel.User> query)
         {
             return query.Select(user=>new BusinessModel.UserIdentifier

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FI.Business.Users.Commands;
@@ -10,30 +12,39 @@ using Microsoft.EntityFrameworkCore;
 using BusinessModel = FI.Business.Users.Models;
 using DataModel = FI.Data.Models.Users;
 
+
 namespace FI.Business.Users.Handlers
 {
-    public class EditUserCommandHandler : IRequestHandler<EditUserCommand, BusinessModel.UserDetail>
+    public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, BusinessModel.Identifier>
     {
         private readonly FIContext _context;
         private DataModel.User _dbUser;
 
-        public EditUserCommandHandler(FIContext context)
+        public ChangePasswordCommandHandler(FIContext context)
         {
             _context = context;
         }
-        
-        public async Task<BusinessModel.UserDetail> Handle(EditUserCommand command, CancellationToken token)
+
+        public async Task<BusinessModel.Identifier> Handle(ChangePasswordCommand command, CancellationToken token)
         {
             await ValidateIfUserExists(command.Id);
-            
-            UpdateUserDetails(command);
-            
+
+            UpdateUserPassword(command);
+
             _context.Users.Update(_dbUser);
             await _context.SaveChangesAsync(token);
-            
-            return command.ToUserDetails();
+
+            return command.ToIdentifier();
         }
-        
+
+        private void UpdateUserPassword(ChangePasswordCommand command)
+        {
+            if (command.OldPassword is null or "") return;
+
+            ValidateIfOldAndExistingPasswordsMatch(command.OldPassword);
+            _dbUser.Detail.Password = command.NewPassword;
+        }
+
         private async Task ValidateIfUserExists(string userId)
         {
             _dbUser = await _context.Users
@@ -45,10 +56,13 @@ namespace FI.Business.Users.Handlers
             }
         }
 
-        private void UpdateUserDetails(EditUserCommand command)
+        private void ValidateIfOldAndExistingPasswordsMatch(string oldPassword)
         {
-            _dbUser.Detail.FirstName = command.FirstName;
-            _dbUser.Detail.LastName = command.LastName;
+            if (!_dbUser.Detail.Password.Equals(oldPassword))
+            {
+                throw new CustomException(ErrorCode.EditUser_Password, "Old password must match with existing!");
+            }
         }
+
     }
 }

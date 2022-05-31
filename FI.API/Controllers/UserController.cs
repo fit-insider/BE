@@ -52,5 +52,15 @@ namespace FI.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("change-password/{id}")]
+        public async Task<ActionResult<Identifier>> ChangePassword([FromRoute] string id, [FromBody] ChangePasswordRequest request)
+        {
+            request.Id = id;
+
+            var result = await _mediator.Send(request.ToCommand());
+
+            return Ok(result);
+        }
     }
 }

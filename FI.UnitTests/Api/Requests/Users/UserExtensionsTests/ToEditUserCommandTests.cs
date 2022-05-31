@@ -8,7 +8,7 @@ namespace FI.UnitTests.Api.Requests.Users.UserExtensionsTests
     [TestFixture]
     public class ToEditUserCommandTests
     {
-        private EditUserRequest _request;
+        private ChangePasswordRequest _request;
         private EditUserCommand _command;
 
         [SetUp]
@@ -63,7 +63,7 @@ namespace FI.UnitTests.Api.Requests.Users.UserExtensionsTests
 
         private void CreateRequest()
         {
-            _request = new EditUserRequest
+            _request = new ChangePasswordRequest
             {
                 Email = "john@doe.com",
                 OldPassword = "johndoepass",

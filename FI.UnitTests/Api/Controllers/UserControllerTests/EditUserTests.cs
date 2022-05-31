@@ -17,7 +17,7 @@ namespace FI.UnitTests.Api.Controllers.UserControllerTests
     {
         private UserController _controller;
         private Mock<IMediator> _mediator;
-        private EditUserRequest _request;
+        private ChangePasswordRequest _request;
         private string _id;
 
         [SetUp]
@@ -57,7 +57,7 @@ namespace FI.UnitTests.Api.Controllers.UserControllerTests
 
         private void CreateRequest()
         {
-            _request = new EditUserRequest
+            _request = new ChangePasswordRequest
             {
                 Email = "john@doe.com",
                 OldPassword = "johndoepass",

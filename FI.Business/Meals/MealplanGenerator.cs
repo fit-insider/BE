@@ -44,9 +44,10 @@ namespace FI.Business.Meals
                 Fat = fat
             };
 
-            MealsGenerator mealsGenerator = new MealsGenerator(preferences, constraints);
+            GoogleBasedMealsGenerator mealsGenerator = new GoogleBasedMealsGenerator(preferences, constraints);
+            //CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(preferences, constraints);
             ICollection<DailyMeals> dailyMeals = mealsGenerator.getDailyMeals();
-
+            
 
             MealplanData mealplanData = new MealplanData
             {

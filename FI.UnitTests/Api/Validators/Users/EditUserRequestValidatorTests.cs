@@ -22,7 +22,7 @@ namespace FI.UnitTests.Api.Validators.Users
         [Test]
         public void WhenRequestWithPasswordIsOk_ShouldReturnTrue()
         {
-            var model = _fixture.Build<EditUserRequest>()
+            var model = _fixture.Build<ChangePasswordRequest>()
                 .With(x => x.Email, "john@doe.com")
                 .With(x => x.NewPassword, "johndoepassNEW")
                 .With(x => x.ConfirmPassword, "johndoepassNEW")
@@ -38,7 +38,7 @@ namespace FI.UnitTests.Api.Validators.Users
         [Test]
         public void WhenRequestWithoutPasswordIsOk_ShouldReturnTrue()
         {
-            var model = _fixture.Build<EditUserRequest>()
+            var model = _fixture.Build<ChangePasswordRequest>()
                 .With(x => x.Email, "john@doe.com")
                 .With(x => x.OldPassword, "")
                 .With(x => x.NewPassword, "")
@@ -55,7 +55,7 @@ namespace FI.UnitTests.Api.Validators.Users
         [Test]
         public void WhenRequestHasOnePassword_ShouldReturnError()
         {
-            var model = _fixture.Build<EditUserRequest>()
+            var model = _fixture.Build<ChangePasswordRequest>()
                 .With(x => x.Email, "john@doe.com")
                 .With(x => x.OldPassword, "password")
                 .With(x => x.NewPassword, "")
@@ -71,7 +71,7 @@ namespace FI.UnitTests.Api.Validators.Users
         [Test]
         public void WhenRequestHasSameOldAndNewPasswords_ShouldReturnError()
         {
-            var model = _fixture.Build<EditUserRequest>()
+            var model = _fixture.Build<ChangePasswordRequest>()
                 .With(x => x.Email, "john@doe.com")
                 .With(x => x.OldPassword, "password")
                 .With(x => x.NewPassword, "password")
@@ -86,7 +86,7 @@ namespace FI.UnitTests.Api.Validators.Users
         [Test]
         public void WhenRequestHasDifferentNewAndConfirmPasswords_ShouldReturnError()
         {
-            var model = _fixture.Build<EditUserRequest>()
+            var model = _fixture.Build<ChangePasswordRequest>()
                 .With(x => x.Email, "john@doe.com")
                 .With(x => x.OldPassword, "password")
                 .With(x => x.NewPassword, "newpassword")

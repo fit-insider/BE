@@ -21,12 +21,20 @@ namespace FI.API.Requests.Users
             return new EditUserCommand
             {
                 Id = request.Id,
-                Email = request.Email,
-                OldPassword = request.OldPassword,
-                NewPassword = request.NewPassword,
-                ConfirmPassword = request.ConfirmPassword,
                 FirstName = request.FirstName,
                 LastName = request.LastName
+            };
+        }
+
+        public static ChangePasswordCommand ToCommand(this ChangePasswordRequest request)
+        {
+            return new ChangePasswordCommand
+            {
+                Id = request.Id,
+                OldPassword = request.OldPassword,
+                NewPassword = request.NewPassword,
+                ConfirmPassword = request.ConfirmPassword
+
             };
         }
 
