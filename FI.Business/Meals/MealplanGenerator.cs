@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using FI.Business.Meals.Commands;
+using FI.Business.Meals.MealsService;
 using FI.Business.Meals.Utils;
 using FI.Data;
 using FI.Data.Models.Meals;
+using FI.Data.Models.Meals.DTOs;
 
 namespace FI.Business.Meals
 {
@@ -22,7 +24,7 @@ namespace FI.Business.Meals
             _context = context;
         }
 
-        public Mealplan GenerateMealPlan(CreateMealplanCommand command)
+        public MealplanDTO GenerateMealPlan(CreateMealplanCommand command)
         {
             double rmb = calculateRmb(command);
             double kcal = calculateCalories(command, rmb);
@@ -44,10 +46,15 @@ namespace FI.Business.Meals
                 Fat = fat
             };
 
-            GoogleBasedMealsGenerator mealsGenerator = new GoogleBasedMealsGenerator(preferences, constraints);
-            //CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(preferences, constraints);
-            ICollection<DailyMeals> dailyMeals = mealsGenerator.getDailyMeals();
-            
+            MealsCreator mealsCreator = new MealsCreator(_context);
+            mealsCreator.generateMealsToDB();
+            ICollection<Day> dailyMeals = new List<Day>();
+
+
+            //GoogleBasedMealsGenerator mealsGenerator = new GoogleBasedMealsGenerator(_context, preferences, constraints);
+            //CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(_context, preferences, constraints);
+            //ICollection<Day> dailyMeals = mealsGenerator.getDailyMeals();
+
 
             MealplanData mealplanData = new MealplanData
             {
@@ -77,7 +84,7 @@ namespace FI.Business.Meals
                 Carb = carb,
                 DailyMeals = dailyMeals,
                 MealplanData = mealplanData
-            };
+            }.toDTO();
         }
 
         private static double calculateRmb(CreateMealplanCommand command)

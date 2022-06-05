@@ -4,14 +4,16 @@ using FI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FI.Migrations.Migrations
 {
     [DbContext(typeof(FIContext))]
-    partial class FIContextModelSnapshot : ModelSnapshot
+    [Migration("20220604171122_MealCascadeDelete")]
+    partial class MealCascadeDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,9 +130,6 @@ namespace FI.Migrations.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DishTypes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HealthLabels")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("ImageData")

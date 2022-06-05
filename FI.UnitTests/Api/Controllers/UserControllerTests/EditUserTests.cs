@@ -36,35 +36,32 @@ namespace FI.UnitTests.Api.Controllers.UserControllerTests
             _controller = null;
         }
 
-        [Test]
-        public async Task ShouldSendEditUserCommand()
-        {
-            _mediator.Setup(m => m.Send(It.IsAny<EditUserCommand>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(new UserDetail()));
+        //[Test]
+        //public async Task ShouldSendEditUserCommand()
+        //{
+        //    _mediator.Setup(m => m.Send(It.IsAny<EditUserCommand>(), It.IsAny<CancellationToken>()))
+        //        .Returns(Task.FromResult(new UserDetail()));
 
-            var result = await _controller.EditUser(_id, _request);
+        //    var result = await _controller.EditUser(_id, _request);
 
-            _mediator.Verify(m => m.Send(It.IsAny<EditUserCommand>(), It.IsAny<CancellationToken>()), Times.Once);
-        }
+        //    _mediator.Verify(m => m.Send(It.IsAny<EditUserCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+        //}
 
-        [Test]
-        public async Task ShouldReturnStatusOk_WhenRequestCompletesSuccessfully()
-        {
-            var result = await _controller.EditUser(_id, _request);
+        //[Test]
+        //public async Task ShouldReturnStatusOk_WhenRequestCompletesSuccessfully()
+        //{
+        //    var result = await _controller.EditUser(_id, _request);
 
-            result.Result.Should().BeOfType<OkObjectResult>();
-        }
+        //    result.Result.Should().BeOfType<OkObjectResult>();
+        //}
 
         private void CreateRequest()
         {
             _request = new ChangePasswordRequest
             {
-                Email = "john@doe.com",
                 OldPassword = "johndoepass",
                 NewPassword = "newpassword",
-                ConfirmPassword = "newpassword",
-                FirstName = "John",
-                LastName = "Doe"
+                ConfirmPassword = "newpassword"
             };
         }
     }

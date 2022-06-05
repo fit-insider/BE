@@ -10,6 +10,7 @@ namespace FI.Business.Meals
 {
     public class GoogleBasedMealsGenerator
     {
+        private FIContext _context;
         private MealPreferences _preferences;
         private DailyConstraints _constraints;
 
@@ -17,35 +18,36 @@ namespace FI.Business.Meals
         private const int TOP_SAMPLES_TO_KEEP = 7;
         private const double CALORIE_EPSILON = 0.2;
 
-        public GoogleBasedMealsGenerator(MealPreferences preferences, DailyConstraints constraints)
+        public GoogleBasedMealsGenerator(FIContext context, MealPreferences preferences, DailyConstraints constraints)
         {
+            _context = context;
             _preferences = preferences;
             _constraints = constraints;
         }
 
-        public ICollection<DailyMeals> getDailyMeals()
+        public ICollection<Day> getDailyMeals()
 
         {
-            FoodApi foodApi = new FoodApi(_preferences);
-            ICollection<Meal> breakfastMeals = foodApi.getBreakfastMeals();
-            ICollection<Meal> dinnerMeals = foodApi.getDinnerMeals();
+            MealsGenerator mealsGenerator = new MealsGenerator(_context, _preferences);
+            ICollection<Meal> breakfastMeals = mealsGenerator.getBreakfastMeals();
+            ICollection<Meal> dinnerMeals = mealsGenerator.getDinnerMeals();
             ICollection<Meal> lunchMeals = new List<Meal>();
             ICollection<Meal> snackMeals = new List<Meal>();
 
             if (_preferences.MealsCount >= 3)
             {
-                lunchMeals = foodApi.getLunchMeals();
+                lunchMeals = mealsGenerator.getLunchMeals();
             }
 
             if (_preferences.MealsCount > 3)
             {
-                snackMeals = foodApi.getSnackMeals();
+                snackMeals = mealsGenerator.getSnackMeals();
             }
 
             List<SolverResult> solutions = new List<SolverResult>();
             foreach (int _ in Enumerable.Range(1, NUM_SAMPLES))
             {
-                DailyMeals day = sampleDay(breakfastMeals, lunchMeals, dinnerMeals, snackMeals);
+                Day day = sampleDay(breakfastMeals, lunchMeals, dinnerMeals, snackMeals);
 
                 solutions.Add(optimizeDay(day));
             }
@@ -54,13 +56,13 @@ namespace FI.Business.Meals
             List<SolverResult> filteredSolutions = solutions.Where(x => !containsAnormalMeals(x.SolutionValues)).ToList();
             filteredSolutions.Sort(comparer);
 
-            List<DailyMeals> dailyMeals = new List<DailyMeals>();
+            List<Day> dailyMeals = new List<Day>();
 
             for (int i = 0; i < TOP_SAMPLES_TO_KEEP; i++)
             {
                 SolverResult result = filteredSolutions.ElementAt(i);
                 ICollection<Meal> processedMeals = processResultMeals(result);
-                dailyMeals.Add(new DailyMeals
+                dailyMeals.Add(new Day
                 {
                     Id = i,
                     Meals = processedMeals
@@ -91,7 +93,6 @@ namespace FI.Business.Meals
             for (int i = 0; i < resultMeals.Count; i++)
             {
                 Meal meal = resultMeals.ElementAt(i);
-                meal.Id = i;
 
                 double kcal = meal.getKcal();
                 double protein = meal.getProtein();
@@ -127,7 +128,7 @@ namespace FI.Business.Meals
         }
 
 
-        private DailyMeals sampleDay(
+        private Day sampleDay(
             ICollection<Meal> breakfastMeals,
             ICollection<Meal> lunchMeals,
             ICollection<Meal> dinnerMeals,
@@ -150,14 +151,14 @@ namespace FI.Business.Meals
             }
 
 
-            return new DailyMeals()
+            return new Day()
             {
                 Meals = dailyMeals
             };
         }
 
 
-        private SolverResult optimizeDay(DailyMeals day)
+        private SolverResult optimizeDay(Day day)
         {
             Solver solver = Solver.CreateSolver("CLP");
             const double INF = double.PositiveInfinity;

@@ -9,10 +9,11 @@ using FI.Data.Models.Users;
 using FI.Infrastructure.Models.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using FI.Data.Models.Meals;
+using FI.Data.Models.Meals.DTOs;
 
 namespace FI.Business.Meals.Handlers
 {
-    public class CreateMealplanCommandHandler : IRequestHandler<CreateMealplanCommand, Mealplan>
+    public class CreateMealplanCommandHandler : IRequestHandler<CreateMealplanCommand, MealplanDTO>
     {
         private readonly FIContext _context;
         private User _user;
@@ -22,10 +23,12 @@ namespace FI.Business.Meals.Handlers
             _context = context;
         }
 
-        public async Task<Mealplan> Handle(CreateMealplanCommand command, CancellationToken token)
+        public async Task<MealplanDTO> Handle(CreateMealplanCommand command, CancellationToken token)
         {
             MealplanGenerator mealplanGenerator = new MealplanGenerator(_context);
-            Mealplan mealplan = mealplanGenerator.GenerateMealPlan(command);
+            MealplanDTO mealplan = mealplanGenerator.GenerateMealPlan(command);
+
+
 
             //_context.Meals.Add(command.ToMeal(_user));
 

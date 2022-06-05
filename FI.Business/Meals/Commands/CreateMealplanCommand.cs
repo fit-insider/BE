@@ -1,9 +1,9 @@
-﻿using FI.Data.Models.Meals;
+﻿using FI.Data.Models.Meals.DTOs;
 using MediatR;
 
 namespace FI.Business.Meals.Commands
 {
-    public class CreateMealplanCommand : IRequest<Mealplan>
+    public class CreateMealplanCommand : IRequest<MealplanDTO>
     {
         public string UserId { get; set; }
         public string Gender { get; set; }

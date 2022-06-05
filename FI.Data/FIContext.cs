@@ -19,16 +19,18 @@ namespace FI.Data
         }
 
         public virtual DbSet<ApplicationVersion> ApplicationVersions { get; set; }
-
         public virtual DbSet<User> Users { get; set; }
-
         public virtual DbSet<Mealplan> Mealplans { get; set; }
+        public virtual DbSet<Meal> Meals { get; set; }
+        public DbSet<Day> Days { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ApplicationVersionConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new MealplanConfiguration());
+            builder.ApplyConfiguration(new IngredientConfiguration());
+            builder.ApplyConfiguration(new NutrientConfiguration());
         }
     }
 }
