@@ -1,7 +1,5 @@
-﻿using System;
-using FI.Data;
+﻿using FI.Data;
 using System.Linq;
-using FI.Business.Meals.Commands;
 using MediatR;
 using System.Threading.Tasks;
 using System.Threading;
@@ -14,7 +12,6 @@ using DinkToPdf;
 using FI.Business.Meals.Utils;
 using System.IO;
 using DinkToPdf.Contracts;
-using System.Reflection;
 
 namespace FI.Business.Meals.Handlers
 {
@@ -56,7 +53,7 @@ namespace FI.Business.Meals.Handlers
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "mealplan"
+                DocumentTitle = "Mealplan"
             };
 
             string stylesheet = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "style.css");
@@ -66,7 +63,6 @@ namespace FI.Business.Meals.Handlers
                 HtmlContent = PdfTemplateGenerator.GetHTMLMealplanString(mealplan),
                 WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = stylesheet },
                 HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
-                FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Generated mealplan" }
             };
 
             var pdf = new HtmlToPdfDocument()
@@ -79,7 +75,6 @@ namespace FI.Business.Meals.Handlers
 
             return file;
         }
-
 
         private async Task ValidateIfUserExists(string userId)
         {

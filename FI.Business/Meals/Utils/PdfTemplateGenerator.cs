@@ -1,16 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using FI.Data.Models.Meals;
 
 namespace FI.Business.Meals.Utils
 {
     public static class PdfTemplateGenerator
     {
-        public static string removeUnit(string  val)
+        public static bool isNumber(string val)
         {
-            var words = val.Split();
-            return string.Join(" ", words.Skip(1).ToArray());
+            Regex regex = new Regex(@"\d+");
+
+            return regex.IsMatch(val);
+        }
+
+        public static bool isFraction(string val)
+        {
+            Regex regex = new Regex(@"\d+(\.\d+)?/\d+(\.\d+)?");
+
+            return regex.IsMatch(val);
+        }
+
+        public static bool isProcent(string val)
+        {
+            Regex regex = new Regex(@"^*\u00BC-\u00BE\u2150-\u215E$");
+            return regex.IsMatch(val);
+        }
+
+        public static string removeUnit(string val)
+        {
+            var words = val.Split(' ');
+            int position = 0;
+            while (isNumber(words[position]) || isFraction(words[position]) || isProcent(words[position]))
+            {
+                position++;
+            }
+            return string.Join(" ", words.Skip(position).ToArray());
         }
 
         public static string GetHTMLMealplanString(Mealplan mealplan)
@@ -78,9 +105,13 @@ namespace FI.Business.Meals.Utils
 
                     foreach (Ingredient ing in meal.Ingredients)
                     {
-                        sb.AppendFormat(@"
+                        if(ing.Weight > 2)
+                        {
+                            sb.AppendFormat(@"
                                         <p class='ingredient'>{0} {1} gr</p>",
-                                        removeUnit(ing.Text), Math.Ceiling(ing.Weight));
+                                        ing.Text, Math.Ceiling(ing.Weight));
+                        }
+                        
                     }
 
                     sb.Append(@"</div>");
@@ -93,5 +124,32 @@ namespace FI.Business.Meals.Utils
 
             return sb.ToString();
         }
-    }
+
+
+        public static string GetHTMLShoppingListString(List<Ingredient> ingredients)
+        {
+            var sb = new StringBuilder();
+            sb.Append(@"
+                        <html>
+                            <head>
+                            </head>
+                            <body>
+                    ");
+
+            sb.AppendFormat(@"
+                                <div class='list'>
+                                    <p class='listTitle'>Shopping List</p>");
+
+            foreach (Ingredient ing in ingredients)
+            {
+                sb.AppendFormat(@"
+                                <p class='ingredient'>{0} {1} gr</p>",
+                                removeUnit(ing.Text), Math.Ceiling(ing.Weight));
+            }
+
+            sb.Append(@"</div></body></html>");
+
+            return sb.ToString();
+        }
+    }       
 }

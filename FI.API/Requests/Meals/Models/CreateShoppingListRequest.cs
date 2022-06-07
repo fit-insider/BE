@@ -2,15 +2,15 @@
 
 namespace FI.API.Requests.Meals.Models
 {
-    public class ExportMealplanRequest
+    public class CreateShoppingListRequest
     {
         public string UserId { get; set; }
         public string MealplanId { get; set; }
     }
 
-    public class ExportMealplanRequestValidator : AbstractValidator<ExportMealplanRequest>
+    public class CreateShoppingListRequestValidator : AbstractValidator<CreateShoppingListRequest>
     {
-        public ExportMealplanRequestValidator()
+        public CreateShoppingListRequestValidator()
         {
             RuleFor(x => x.MealplanId)
                 .NotEmpty();

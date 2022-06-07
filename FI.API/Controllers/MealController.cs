@@ -54,5 +54,13 @@ namespace FI.API.Controllers
             return File(result, "application/pdf");
         }
 
+        [HttpGet("create-shopping-list/{userId}&{mealplanId}")]
+        public async Task<ActionResult> CreateShoppingList([FromRoute] string userId, [FromRoute] string mealplanId)
+        {
+            var result = await _mediator.Send(new CreateShoppingListQuery { UserId = userId, MealplanId = mealplanId });
+
+            return File(result, "application/pdf");
+        }
+
     }
 }
