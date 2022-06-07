@@ -4,6 +4,7 @@ using System.Linq;
 using FI.Business.Meals.Utils;
 using FI.Data;
 using FI.Data.Models.Meals;
+using FI.Data.Models.Meals.DTOs;
 using Google.OrTools.LinearSolver;
 
 namespace FI.Business.Meals
@@ -64,10 +65,9 @@ namespace FI.Business.Meals
                 ICollection<Meal> processedMeals = processResultMeals(result);
                 dailyMeals.Add(new Day
                 {
-                    Id = i,
+                    Id = Guid.NewGuid().ToString(),
                     Meals = processedMeals
                 });
-
             }
 
             return dailyMeals;
@@ -89,16 +89,11 @@ namespace FI.Business.Meals
         private ICollection<Meal> processResultMeals(SolverResult result)
         {
             ICollection<Meal> resultMeals = result.Meals;
+            ICollection<Meal> processedMeals = new List<Meal>();
 
             for (int i = 0; i < resultMeals.Count; i++)
             {
-                Meal meal = resultMeals.ElementAt(i);
-
-                double kcal = meal.getKcal();
-                double protein = meal.getProtein();
-                double fat = meal.getFat();
-                double carbs = meal.getCarb();
-
+                Meal meal = resultMeals.ElementAt(i).clone();
 
                 double solutionValue = result.SolutionValues.ElementAt(i);
 
@@ -122,9 +117,11 @@ namespace FI.Business.Meals
                 {
                     nutrient.Quantity *= changePercentage;
                 }
+
+                processedMeals.Add(meal);
             }
 
-            return result.Meals;
+            return processedMeals;
         }
 
 

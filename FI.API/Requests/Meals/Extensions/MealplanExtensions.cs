@@ -1,4 +1,5 @@
 ﻿using FI.API.Requests.Meals;
+using FI.API.Requests.Meals.Models;
 using FI.Business.Meals.Commands;
 using FI.Business.Meals.Queries;
 
@@ -37,6 +38,15 @@ namespace FI.API.Requests.Meals
                 MealplanId = request.MealplanId
             };
         }
-        
+
+        public static ExportMealplanQuery ToQuery(this ExportMealplanRequest request)
+        {
+            return new ExportMealplanQuery
+            {
+                UserId = request.UserId,
+                MealplanId = request.MealplanId
+            };
+        }
+
     }
 }

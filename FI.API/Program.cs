@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace FI.API
@@ -14,7 +14,9 @@ namespace FI.API
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .ConfigureKestrel(x => x.Limits.MaxResponseBufferSize = 10000000)
+                    .UseStartup<Startup>();
                 });
     }
 }

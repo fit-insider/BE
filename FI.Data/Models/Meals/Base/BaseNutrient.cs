@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace FI.Data.Models.Meals
+namespace FI.Data.Models.Meals.Base
 {
-    public class Nutrient
+    public class BaseNutrient
     {
         public string Id { get; set; }
-        public string MealId { get; set; }
+        public string BaseMealId { get; set; }
         public string Name { get; set; }
         public double Quantity { get; set; }
         public string Unit { get; set; }
 
-        public Nutrient clone()
+        public Nutrient toNutrient()
         {
             return new Nutrient
             {

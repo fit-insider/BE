@@ -1,14 +1,9 @@
-﻿using System;
-using FI.Data;
-using System.Linq;
+﻿using FI.Data;
 using FI.Business.Meals.Commands;
 using MediatR;
 using System.Threading.Tasks;
 using System.Threading;
 using FI.Data.Models.Users;
-using FI.Infrastructure.Models.Exceptions;
-using Microsoft.EntityFrameworkCore;
-using FI.Data.Models.Meals;
 using FI.Data.Models.Meals.DTOs;
 
 namespace FI.Business.Meals.Handlers
@@ -27,10 +22,6 @@ namespace FI.Business.Meals.Handlers
         {
             MealplanGenerator mealplanGenerator = new MealplanGenerator(_context);
             MealplanDTO mealplan = mealplanGenerator.GenerateMealPlan(command);
-
-
-
-            //_context.Meals.Add(command.ToMeal(_user));
 
             await _context.SaveChangesAsync(token);
             return mealplan;

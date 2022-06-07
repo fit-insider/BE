@@ -14,6 +14,10 @@ using Microsoft.Extensions.Hosting;
 using FluentValidation.AspNetCore;
 using FI.API.Middleware;
 using Microsoft.OpenApi.Models;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 namespace FI.API
 {
@@ -54,6 +58,8 @@ namespace FI.API
 
             services.RegisterServices();
             services.AddRouting(options => options.LowercaseUrls = true);
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,6 +86,7 @@ namespace FI.API
             }
 
             app.UseDefaultFiles();
+
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
@@ -91,6 +98,7 @@ namespace FI.API
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

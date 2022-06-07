@@ -5,6 +5,7 @@ using FI.Business.Users.Models;
 using FI.Data.Models.Meals;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace FI.API.Controllers
@@ -44,5 +45,14 @@ namespace FI.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("export-mealplan/{userId}&{mealplanId}")]
+        public async Task<ActionResult> ExportMealplan([FromRoute] string userId, [FromRoute] string mealplanId)
+        {
+            var result = await _mediator.Send(new ExportMealplanQuery { UserId = userId, MealplanId = mealplanId });
+
+            return File(result, "application/pdf");
+        }
+
     }
 }

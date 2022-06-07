@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FI.Data.Models.Meals
+﻿namespace FI.Data.Models.Meals
 {
     public class MealplanData
     { 
         public int Id { get; set; }
+        public string MealplanId { get; set; }
         public string Gender { get; set; }
         public string Target { get; set; }
         public double Height { get; set; }

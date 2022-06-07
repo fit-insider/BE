@@ -17,10 +17,7 @@ namespace FI.Business.Meals.MealsService
         {
             FoodApi foodApi = new FoodApi(_context);
 
-            ICollection<Meal> meals = foodApi.getApiMeals();
-
-            _context.AddRange(meals);
-            _context.SaveChanges();
+            foodApi.getApiMeals();
         }
     }
 }

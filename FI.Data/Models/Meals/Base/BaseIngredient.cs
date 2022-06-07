@@ -1,18 +1,18 @@
 ﻿using System;
 
-namespace FI.Data.Models.Meals
+namespace FI.Data.Models.Meals.Base
 {
-    public class Ingredient
+    public class BaseIngredient
     {
         public string Id { get; set; }
-        public string MealId { get; set; }
+        public string BaseMealId { get; set; }
         public string Text { get; set; }
         public string Category { get; set; }
         public double Quantity { get; set; }
         public double Weight { get; set; }
         public string Unit { get; set; }
 
-        public Ingredient clone()
+        public Ingredient toIngredient()
         {
             return new Ingredient
             {

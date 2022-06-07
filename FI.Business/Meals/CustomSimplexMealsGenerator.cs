@@ -7,6 +7,7 @@ using FI.Business.Meals.SimplexImplementation.Model;
 using FI.Business.Meals.SimplexImplementation.Service;
 using SimplexMethod.Model;
 using FI.Data;
+using FI.Data.Models.Meals.DTOs;
 
 namespace FI.Business.Meals
 {
@@ -58,14 +59,16 @@ namespace FI.Business.Meals
             filteredSolutions.Sort(comparer);
 
             List<Day> dailyMeals = new List<Day>();
+            List<string> ids = new List<string>();
 
             for (int i = 0; i < TOP_SAMPLES_TO_KEEP; i++)
             {
                 SolverResult result = filteredSolutions.ElementAt(i);
                 ICollection<Meal> processedMeals = processResultMeals(result);
+
                 dailyMeals.Add(new Day
                 {
-                    Id = i,
+                    Id = Guid.NewGuid().ToString(),
                     Meals = processedMeals
                 });
             }
@@ -89,10 +92,11 @@ namespace FI.Business.Meals
         private ICollection<Meal> processResultMeals(SolverResult result)
         {
             ICollection<Meal> resultMeals = result.Meals;
+            ICollection<Meal> processedMeals = new List<Meal>();
 
             for (int i = 0; i < resultMeals.Count; i++)
             {
-                Meal meal = resultMeals.ElementAt(i);
+                Meal meal = resultMeals.ElementAt(i).clone();
 
                 double solutionValue = result.SolutionValues.ElementAt(i);
 
@@ -115,9 +119,11 @@ namespace FI.Business.Meals
                 {
                     nutrient.Quantity *= changePercentage;
                 }
+
+                processedMeals.Add(meal);
             }
 
-            return result.Meals;
+            return processedMeals;
         }
 
 

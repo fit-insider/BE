@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FI.Data;
 using FI.Data.Models.Meals;
+using FI.Data.Models.Meals.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace FI.Business.Meals.Utils
@@ -42,12 +43,11 @@ namespace FI.Business.Meals.Utils
         {
             Random rand = new Random(Guid.NewGuid().GetHashCode());
 
-            var meals = _context.Meals
+            var meals = _context.BaseMeals
                 .Include(m => m.Ingredients)
                 .Include(m => m.Nutrients)
-                .Include(m => m.Days)
-                .Where(meal => meal.MealTypes.Contains(type));
-                
+                .Where(m => m.MealTypes.Contains(type))
+                .Select(m => m.toMeal());
 
             if (_preferences.Type != "general")
             {

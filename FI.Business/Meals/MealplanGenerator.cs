@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using FI.Business.Meals.Commands;
 using FI.Business.Meals.MealsService;
 using FI.Business.Meals.Utils;
@@ -46,14 +46,13 @@ namespace FI.Business.Meals
                 Fat = fat
             };
 
-            MealsCreator mealsCreator = new MealsCreator(_context);
-            mealsCreator.generateMealsToDB();
-            ICollection<Day> dailyMeals = new List<Day>();
-
+            //MealsCreator mealsCreator = new MealsCreator(_context);
+            //mealsCreator.generateMealsToDB();
+            //ICollection<Day> dailyMeals = new List<Day>();
 
             //GoogleBasedMealsGenerator mealsGenerator = new GoogleBasedMealsGenerator(_context, preferences, constraints);
-            //CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(_context, preferences, constraints);
-            //ICollection<Day> dailyMeals = mealsGenerator.getDailyMeals();
+            CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(_context, preferences, constraints);
+            ICollection<Day> dailyMeals = mealsGenerator.getDailyMeals();
 
 
             MealplanData mealplanData = new MealplanData
@@ -74,7 +73,7 @@ namespace FI.Business.Meals
                 MealsCount = command.MealsCount
             };
 
-            return new Mealplan
+            Mealplan mealplan = new Mealplan
             {
                 Id = Guid.NewGuid().ToString(),
                 UserId = command.UserId,
@@ -84,7 +83,37 @@ namespace FI.Business.Meals
                 Carb = carb,
                 DailyMeals = dailyMeals,
                 MealplanData = mealplanData
-            }.toDTO();
+            };
+
+            ///
+            int ingredients = 0;
+            foreach(Day day in mealplan.DailyMeals)
+            {
+                foreach(Meal meal in day.Meals)
+                {
+                    ingredients += meal.Ingredients.Count;
+                }
+            }
+            ///
+
+            if (command.UserId != null)
+            {
+                _context.Mealplans.Add(mealplan);
+                _context.SaveChanges();
+            }
+
+            ///
+            int ingredients2 = 0;
+            foreach (Day day in mealplan.DailyMeals)
+            {
+                foreach (Meal meal in day.Meals)
+                {
+                    ingredients2 += meal.Ingredients.Count;
+                }
+            }
+            ///
+
+            return mealplan.toDTO();
         }
 
         private static double calculateRmb(CreateMealplanCommand command)

@@ -1,4 +1,4 @@
-<rewrite>
+﻿<rewrite>
 	<rules>
 		<rule name="SPA Routes" stopProcessing="true">
 		<match url=".*" />

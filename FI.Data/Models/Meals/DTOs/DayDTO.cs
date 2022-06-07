@@ -8,7 +8,7 @@ namespace FI.Data.Models.Meals.DTOs
 {
     public class DayDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public ICollection<MealDTO> Meals { get; set; }
     }
 }

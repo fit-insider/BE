@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using FI.Data.Models.Meals.DTOs;
+using System;
+using System.Linq;
 
 namespace FI.Data.Models.Meals
 {
     public class Meal
     {
         public string Id { get; set; }
+        public string DayId { get; set; }
         public string Name { get; set; }
         public byte[] ImageData { get; set; }
         public string HealthLabels { get; set; }
@@ -15,7 +18,6 @@ namespace FI.Data.Models.Meals
         public string Cautions { get; set; }
         public List<Nutrient> Nutrients { get; set; }
         public List<Ingredient> Ingredients { get; set; }
-        public ICollection<Day> Days { get; set; }
 
         public double getKcal()
         {
@@ -58,8 +60,25 @@ namespace FI.Data.Models.Meals
                 DishTypes = DishTypes.Split(';'),
                 MealTypes = MealTypes.Split(';'),
                 CuisineTypes = CuisineTypes.Split(';'),
-                Cautions = Cautions.Split(';'),
-                Days = Days
+                Cautions = Cautions.Split(';')
+            };
+        }
+
+        public Meal clone()
+        {
+            return new Meal
+            {
+                Id = Guid.NewGuid().ToString(),
+                DayId = DayId,
+                Name = Name,
+                ImageData = ImageData,
+                Ingredients = Ingredients.Select(Ingredient => Ingredient.clone()).ToList(),
+                Nutrients = Nutrients.Select(nutrient => nutrient.clone()).ToList(),
+                HealthLabels = HealthLabels,
+                DishTypes = DishTypes,
+                MealTypes = MealTypes,
+                CuisineTypes = CuisineTypes,
+                Cautions = Cautions
             };
         }
     }

@@ -6,7 +6,8 @@ namespace FI.Data.Models.Meals
 {
     public class Day
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
+        public string MealplanId { get; set; }
         public ICollection<Meal> Meals { get; set; }
 
         public DayDTO toDTO()

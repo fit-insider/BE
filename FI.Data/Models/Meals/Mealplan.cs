@@ -12,7 +12,7 @@ namespace FI.Data.Models.Meals
         public double Protein { get; set; }
         public double Carb { get; set; }
         public double Fat { get; set; }
-        public MealplanData MealplanData { get; set; }
+        public virtual MealplanData MealplanData { get; set; }
         public ICollection<Day> DailyMeals { get; set; }
         public MealplanDTO toDTO()
         {
