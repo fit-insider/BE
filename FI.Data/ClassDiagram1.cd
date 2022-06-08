@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FI.Data.Models.Meals.Day">
+    <Position X="7" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAgAA=</HashCode>
+      <FileName>Models\Meals\Day.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Meals" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="FI.Data.Models.Meals.Ingredient">
+    <Position X="9" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAIAAAAAAAAiAAAAAAAAAAmAAACAA=</HashCode>
+      <FileName>Models\Meals\Ingredient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Data.Models.Meals.Meal">
+    <Position X="7" Y="7" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAICCAAAgAAAAAAJAAAAAaRAAAAAEEAAAAEAUAABAAA=</HashCode>
+      <FileName>Models\Meals\Meal.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Nutrients" />
+      <Property Name="Ingredients" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="FI.Data.Models.Meals.Mealplan">
+    <Position X="7.25" Y="2.25" Width="1.5" />
+    <Members>
+      <Property Name="Id" Hidden="true" />
+    </Members>
+    <AssociationLine Name="UserId" Type="System.String" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.25" Y="3.312" />
+        <Point X="6.875" Y="3.312" />
+        <Point X="6.875" Y="3.812" />
+        <Point X="5.5" Y="3.812" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.11" Y="-0.891" Height="0.182" Width="0.771" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAACAQAAgACABAAAAAAAAAgAAAAAAIAAAAAAQAAAAAA=</HashCode>
+      <FileName>Models\Meals\Mealplan.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="UserId" />
+      <Property Name="Id" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="DailyMeals" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="FI.Data.Models.Meals.MealplanData">
+    <Position X="4.25" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="MealplanId" Type="System.String">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.068" Y="0.053" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>CAACAAAABQAAAgCABEABACAAACAAAAAAARAAAAAApAA=</HashCode>
+      <FileName>Models\Meals\MealplanData.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MealplanId" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FI.Data.Models.Meals.Nutrient">
+    <Position X="4.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAIAAAAAQAAgAAAAAAAAAAkAAAAAA=</HashCode>
+      <FileName>Models\Meals\Nutrient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Data.Models.Users.User">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <AssociationLine Name="Id" Type="System.String" ManuallyRouted="true">
+      <Path>
+        <Point X="7.25" Y="1.052" />
+        <Point X="6.875" Y="1.052" />
+        <Point X="6.875" Y="3.093" />
+        <Point X="5.954" Y="3.093" />
+        <Point X="5.954" Y="3.531" />
+        <Point X="5.5" Y="3.531" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Models\Users\User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Id" />
+      <Property Name="Detail" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FI.Data.Models.Users.UserDetail">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAEAAAAAAAAAAAAAAAAgAAAAAAAACAAAAAAAAAAg=</HashCode>
+      <FileName>Models\Users\UserDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.String" Collapsed="true">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Left" Position="0.18" Collapsed="true" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

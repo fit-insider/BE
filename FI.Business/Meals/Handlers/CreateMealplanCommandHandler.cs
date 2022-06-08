@@ -3,7 +3,6 @@ using FI.Business.Meals.Commands;
 using MediatR;
 using System.Threading.Tasks;
 using System.Threading;
-using FI.Data.Models.Users;
 using FI.Data.Models.Meals.DTOs;
 
 namespace FI.Business.Meals.Handlers
@@ -11,7 +10,6 @@ namespace FI.Business.Meals.Handlers
     public class CreateMealplanCommandHandler : IRequestHandler<CreateMealplanCommand, MealplanDTO>
     {
         private readonly FIContext _context;
-        private User _user;
 
         public CreateMealplanCommandHandler(FIContext context)
         {

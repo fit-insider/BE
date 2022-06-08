@@ -30,18 +30,18 @@ namespace FI.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("mealplan/{mealplanId}")]
-        public async Task<ActionResult<Mealplan>> GetMealplan([FromBody] GetMealplanRequest request)
+        [HttpGet("mealplan/{userId}&{mealplanId}")]
+        public async Task<ActionResult<Mealplan>> GetMealplan([FromRoute] string userId, [FromRoute] string mealplanId)
         {
-            var result = await _mediator.Send(request.ToQuery());
+            var result = await _mediator.Send(new GetMealplanQuery { UserId = userId, MealplanId = mealplanId });
 
             return Ok(result);
         }
 
-        [HttpGet("mealplans/{id}")]
-        public async Task<ActionResult<UserIdentifier>> GetMealplans([FromRoute] string id)
+        [HttpGet("mealplans/{userId}")]
+        public async Task<ActionResult<UserIdentifier>> GetMealplans([FromRoute] string userId)
         {
-            var result = await _mediator.Send(new GetMealplansQuery { UserId = id });
+            var result = await _mediator.Send(new GetMealplansQuery { UserId = userId });
 
             return Ok(result);
         }

@@ -46,8 +46,8 @@ namespace FI.Business.Meals.Utils
             var meals = _context.BaseMeals
                 .Include(m => m.Ingredients)
                 .Include(m => m.Nutrients)
-                .Where(m => m.MealTypes.Contains(type))
-                .Select(m => m.toMeal());
+                .Where(m => m.MealTypes.Contains(type));
+  
 
             if (_preferences.Type != "general")
             {
@@ -62,10 +62,11 @@ namespace FI.Business.Meals.Utils
                 }
             }
 
+            var allMeals = meals.Select(m => m.toMeal());
             ICollection<Meal> result = new List<Meal>();
             for(int i = 0; i < 20; i++)
             {
-                result.Add(meals.Skip(rand.Next(0, meals.Count())).First());
+                result.Add(allMeals.Skip(rand.Next(0, allMeals.Count())).First());
             }
 
             return result;

@@ -57,21 +57,18 @@ namespace FI.Business.Meals
             SolverResultErrorComparer comparer = new SolverResultErrorComparer();
             List<SolverResult> filteredSolutions = solutions.Where(x => !containsAnormalMeals(x.SolutionValues)).ToList();
             filteredSolutions.Sort(comparer);
-
             List<Day> dailyMeals = new List<Day>();
-            List<string> ids = new List<string>();
-
             for (int i = 0; i < TOP_SAMPLES_TO_KEEP; i++)
             {
                 SolverResult result = filteredSolutions.ElementAt(i);
                 ICollection<Meal> processedMeals = processResultMeals(result);
-
                 dailyMeals.Add(new Day
                 {
                     Id = Guid.NewGuid().ToString(),
                     Meals = processedMeals
                 });
             }
+
 
             return dailyMeals;
         }
@@ -157,15 +154,15 @@ namespace FI.Business.Meals
 
         private SolverResult optimizeDay(Day day)
         {
-            Random rand = new Random();
-
             // Defining the constraints
             Dictionary<string, Tuple<double, double>> dietaryConstraints = new Dictionary<string, Tuple<double, double>>();
+            dietaryConstraints.Add("Energy", new Tuple<double, double>(
+                (_constraints.Kcal - (5.0 / 100.0 * _constraints.Kcal)),
+                (_constraints.Kcal + (5.0 / 100.0 * _constraints.Kcal))));
+            dietaryConstraints.Add("Protein", new Tuple<double, double>(
+                (_constraints.Protein - (5.0 / 100.0 * _constraints.Protein)), 
+                (_constraints.Protein + (5.0 / 100.0 * _constraints.Protein))));
 
-            dietaryConstraints.Add("Energy", new Tuple<double, double>((_constraints.Kcal - (5.0 / 100.0 * _constraints.Kcal)), (_constraints.Kcal + (5.0 / 100.0 * _constraints.Kcal))));
-            dietaryConstraints.Add("Protein", new Tuple<double, double>((_constraints.Protein - (5.0 / 100.0 * _constraints.Protein)), (_constraints.Protein + (5.0 / 100.0 * _constraints.Protein))));
-
-            // Define constraints
             List<Constraint> constraints = new List<Constraint>();
             foreach (KeyValuePair<string, Tuple<double, double>> constraint in dietaryConstraints)
             {
@@ -192,7 +189,6 @@ namespace FI.Business.Meals
                 constraints.Add(new Constraint(oneMealCoefficients, 7.5, "<="));
             }
 
-
             // Define objective function coefficients
             double[] functionCoefficients = new double[day.Meals.Count];
             for (int i = 0; i < day.Meals.Count; i++)
@@ -216,6 +212,7 @@ namespace FI.Business.Meals
             }
 
             Function function = new Function(functionCoefficients, 0, true);
+
             Simplex simplex = new Simplex(function, constraints.ToArray());
             Tuple<List<SimplexSnap>, SimplexResult> result = simplex.GetResult();
 

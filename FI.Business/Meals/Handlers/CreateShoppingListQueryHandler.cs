@@ -110,7 +110,7 @@ namespace FI.Business.Meals.Handlers
 
         public static bool isUnitWord(string val)
         {
-            Regex regex = new Regex(@"cup|teaspoon|cups|tablespoon|\*|tbsp|tsp|serving|clove");
+            Regex regex = new Regex(@"cup|teaspoon|cups|tablespoon|\*|tbsp|tsp|serving|clove|tablespoons|teaspoons");
 
             return regex.IsMatch(val);
         }

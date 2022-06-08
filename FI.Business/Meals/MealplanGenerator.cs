@@ -50,9 +50,19 @@ namespace FI.Business.Meals
             //mealsCreator.generateMealsToDB();
             //ICollection<Day> dailyMeals = new List<Day>();
 
-            //GoogleBasedMealsGenerator mealsGenerator = new GoogleBasedMealsGenerator(_context, preferences, constraints);
-            CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(_context, preferences, constraints);
-            ICollection<Day> dailyMeals = mealsGenerator.getDailyMeals();
+
+            ICollection<Day> dailyMeals;
+            if(command.UseCustomMethod == true)
+            {
+                CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(_context,
+                    preferences, constraints);
+                dailyMeals = mealsGenerator.getDailyMeals();
+            } else
+            {
+                GoogleBasedMealsGenerator mealsGenerator = new GoogleBasedMealsGenerator(_context,
+                    preferences, constraints);
+                dailyMeals = mealsGenerator.getDailyMeals();
+            }
 
 
             MealplanData mealplanData = new MealplanData
@@ -85,33 +95,12 @@ namespace FI.Business.Meals
                 MealplanData = mealplanData
             };
 
-            ///
-            int ingredients = 0;
-            foreach(Day day in mealplan.DailyMeals)
-            {
-                foreach(Meal meal in day.Meals)
-                {
-                    ingredients += meal.Ingredients.Count;
-                }
-            }
-            ///
 
             if (command.UserId != null)
             {
                 _context.Mealplans.Add(mealplan);
                 _context.SaveChanges();
             }
-
-            ///
-            int ingredients2 = 0;
-            foreach (Day day in mealplan.DailyMeals)
-            {
-                foreach (Meal meal in day.Meals)
-                {
-                    ingredients2 += meal.Ingredients.Count;
-                }
-            }
-            ///
 
             return mealplan.toDTO();
         }

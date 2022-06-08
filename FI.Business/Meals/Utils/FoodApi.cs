@@ -81,8 +81,8 @@ namespace FI.Business.Meals.Utils
                     {
                         imageData = webClient.DownloadData(imageURL);
                     }
-                    //i++;
-                    //wait(i, _context);
+                    i++;
+                    wait(i, _context);
 
                     var apiHealthLabels = (JArray)recipe["healthLabels"];
                     var healthLabels = new List<string>();

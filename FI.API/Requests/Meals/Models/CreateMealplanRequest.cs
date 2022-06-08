@@ -20,6 +20,7 @@ namespace FI.API.Requests.Meals
         public string MealplanType { get; set; }
         public int MealsCount { get; set; }
         public string[] ExcludedFoods { get; set; }
+        public bool UseCustomMethod { get; set; }
     }
 
     public class CreateMealplanRequestValidator : AbstractValidator<CreateMealplanRequest>

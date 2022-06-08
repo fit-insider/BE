@@ -26,27 +26,9 @@ namespace FI.API.Requests.Meals
                 WaterIntake = request.WaterIntake,
                 MealplanType = request.MealplanType,
                 MealsCount = request.MealsCount,
-                ExcludedFoods = request.ExcludedFoods
+                ExcludedFoods = request.ExcludedFoods,
+                UseCustomMethod = request.UseCustomMethod
             };
         }
-
-        public static GetMealplanQuery ToQuery(this GetMealplanRequest request)
-        {
-            return new GetMealplanQuery
-            {
-                UserId = request.UserId,
-                MealplanId = request.MealplanId
-            };
-        }
-
-        public static ExportMealplanQuery ToQuery(this ExportMealplanRequest request)
-        {
-            return new ExportMealplanQuery
-            {
-                UserId = request.UserId,
-                MealplanId = request.MealplanId
-            };
-        }
-
     }
 }

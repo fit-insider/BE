@@ -21,5 +21,6 @@ namespace FI.Business.Meals.Commands
         public string MealplanType { get; set; }
         public int MealsCount { get; set; }
         public string[] ExcludedFoods { get; set; }
+        public bool UseCustomMethod { get; set; }
     }
 }
