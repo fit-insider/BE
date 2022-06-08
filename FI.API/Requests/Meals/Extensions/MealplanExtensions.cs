@@ -1,4 +1,5 @@
 ﻿using FI.API.Requests.Meals;
+using FI.API.Requests.Meals.Models;
 using FI.Business.Meals.Commands;
 using FI.Business.Meals.Queries;
 
@@ -25,17 +26,9 @@ namespace FI.API.Requests.Meals
                 WaterIntake = request.WaterIntake,
                 MealplanType = request.MealplanType,
                 MealsCount = request.MealsCount,
+                ExcludedFoods = request.ExcludedFoods,
+                UseCustomMethod = request.UseCustomMethod
             };
         }
-
-        public static GetMealplanQuery ToQuery(this GetMealplanRequest request)
-        {
-            return new GetMealplanQuery
-            {
-                UserId = request.UserId,
-                MealplanId = request.MealplanId
-            };
-        }
-        
     }
 }

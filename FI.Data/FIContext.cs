@@ -5,6 +5,7 @@ using FI.Data.Models.ApplicationVersions;
 using FI.Data.Models.Meals;
 using FI.Data.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using FI.Data.Models.Meals.Base;
 
 namespace FI.Data
 {
@@ -19,21 +20,24 @@ namespace FI.Data
         }
 
         public virtual DbSet<ApplicationVersion> ApplicationVersions { get; set; }
-
         public virtual DbSet<User> Users { get; set; }
-
         public virtual DbSet<Mealplan> Mealplans { get; set; }
-        public virtual DbSet<DailyMeals> DailyMeals { get; set; }
-        public virtual DbSet<Meal> Meals { get; set; }
-        public virtual DbSet<FoodEntity> FoodEntities { get; set; }
-
+        public virtual DbSet<BaseMeal> BaseMeals { get; set; }
+        public virtual DbSet<Day> Days { get; set; }
+        public virtual DbSet<Ingredient> Ingredients { get; set; }
+        public virtual DbSet<Nutrient> Nutrients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ApplicationVersionConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new MealplanConfiguration());
-            builder.ApplyConfiguration(new DailyMealsConfiguration());
+            builder.ApplyConfiguration(new IngredientConfiguration());
+            builder.ApplyConfiguration(new NutrientConfiguration());
+            builder.ApplyConfiguration(new MealConfiguration());
+            builder.ApplyConfiguration(new DayConfiguration());
+            builder.ApplyConfiguration(new BaseIngredientConfiguration());
+            builder.ApplyConfiguration(new BaseNutrientConfiguration());
         }
     }
 }

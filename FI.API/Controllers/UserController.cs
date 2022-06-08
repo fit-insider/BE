@@ -36,7 +36,7 @@ namespace FI.API.Controllers
         }
 
         [HttpGet("display/{id}")]
-        public async Task<ActionResult<UserIdentifier>> GetUserDetails([FromRoute] int id)
+        public async Task<ActionResult<UserIdentifier>> GetUserDetails([FromRoute] string id)
         {
             var result = await _mediator.Send(new GetUserDetailsQuery { UserId = id });
 
@@ -44,7 +44,17 @@ namespace FI.API.Controllers
         }
 
         [HttpPut("edit/{id}")]
-        public async Task<ActionResult<UserDetail>> EditUser([FromRoute] int id, [FromBody] EditUserRequest request)
+        public async Task<ActionResult<UserDetail>> EditUser([FromRoute] string id, [FromBody] EditUserRequest request)
+        {
+            request.Id = id;
+
+            var result = await _mediator.Send(request.ToCommand());
+
+            return Ok(result);
+        }
+
+        [HttpPut("change-password/{id}")]
+        public async Task<ActionResult<Identifier>> ChangePassword([FromRoute] string id, [FromBody] ChangePasswordRequest request)
         {
             request.Id = id;
 

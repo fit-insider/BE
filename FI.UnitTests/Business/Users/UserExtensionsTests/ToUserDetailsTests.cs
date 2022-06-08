@@ -17,12 +17,12 @@ namespace FI.UnitTests.Business.Users.UserExtensionsTests
         {
             _user = new DataModel.User
             {
-                Id = 1,
+                Id = "1",
                 Email = "john@doe.com",
                 Detail = new DataModel.UserDetail
                 {
-                    Id = 1,
-                    UserId = 1,
+                    Id = "1",
+                    UserId = "1",
                     FirstName = "John",
                     LastName = "Doe",
                     Password = "password",
@@ -42,7 +42,7 @@ namespace FI.UnitTests.Business.Users.UserExtensionsTests
         [Test]
         public void ShouldReturnUserDetailsWithCorrectId()
         {
-            _result.UserId.Should().Be(1);
+            _result.UserId.Should().Be("1");
         }
 
         [Test]

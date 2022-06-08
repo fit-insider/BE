@@ -1,58 +1,28 @@
-﻿using System;
-using FI.Data;
-using System.Linq;
+﻿using FI.Data;
 using FI.Business.Meals.Commands;
 using MediatR;
 using System.Threading.Tasks;
 using System.Threading;
-using FI.Data.Models.Users;
-using FI.Infrastructure.Models.Exceptions;
-using Microsoft.EntityFrameworkCore;
-using FI.Data.Models.Meals;
+using FI.Data.Models.Meals.DTOs;
 
 namespace FI.Business.Meals.Handlers
 {
-    public class CreateMealplanCommandHandler : IRequestHandler<CreateMealplanCommand, bool>
+    public class CreateMealplanCommandHandler : IRequestHandler<CreateMealplanCommand, MealplanDTO>
     {
         private readonly FIContext _context;
-        private User _user;
 
         public CreateMealplanCommandHandler(FIContext context)
         {
             _context = context;
         }
 
-        public async Task<bool> Handle(CreateMealplanCommand command, CancellationToken token)
+        public async Task<MealplanDTO> Handle(CreateMealplanCommand command, CancellationToken token)
         {
-            await ValidateIfUserExists(command.UserId);
-
-            Console.WriteLine(command);
-
             MealplanGenerator mealplanGenerator = new MealplanGenerator(_context);
-            Mealplan mealplan = mealplanGenerator.GenerateMealPlan(command);
-
-            //_context.Meals.Add(command.ToMeal(_user));
+            MealplanDTO mealplan = mealplanGenerator.GenerateMealPlan(command);
 
             await _context.SaveChangesAsync(token);
-            return true;
-        }
-
-        public async Task ValidateIfUserExists(int userId)
-        {
-            _user = await _context.Users
-                .Where(u => u.Id == userId)
-                .FirstOrDefaultAsync();
-
-            if (_user is null)
-            {
-                throw new CustomException(ErrorCode.CreateMealplan_user, "User does not exist!");
-            }
-        }
-
-        private Mealplan GenerateNewMealplan(CreateMealplanCommand command)
-        {
-            return new Mealplan();
-
+            return mealplan;
         }
     }
 }

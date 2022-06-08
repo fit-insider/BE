@@ -1,6 +1,12 @@
-﻿using FI.Business.Meals.Commands;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using FI.Business.Meals.Commands;
+using FI.Business.Meals.MealsService;
+using FI.Business.Meals.Utils;
 using FI.Data;
 using FI.Data.Models.Meals;
+using FI.Data.Models.Meals.DTOs;
 
 namespace FI.Business.Meals
 {
@@ -18,7 +24,7 @@ namespace FI.Business.Meals
             _context = context;
         }
 
-        public Mealplan GenerateMealPlan(CreateMealplanCommand command)
+        public MealplanDTO GenerateMealPlan(CreateMealplanCommand command)
         {
             double rmb = calculateRmb(command);
             double kcal = calculateCalories(command, rmb);
@@ -26,18 +32,77 @@ namespace FI.Business.Meals
             double fat = calculateFat(command);
             double carb = calculateCarb(kcal, protein, fat);
 
-            MealsGenerator mealsGenerator = new MealsGenerator(_context);
-            //int test = mealsGenerator.getMealsAsync(kcal,protein, carb, fat);
- 
+            MealPreferences preferences = new MealPreferences { 
+                Type = command.MealplanType,
+                ExcludedFoods = command.ExcludedFoods,
+                MealsCount = command.MealsCount
+            };
 
-
-            return new Mealplan
+            DailyConstraints constraints = new DailyConstraints
             {
+                Kcal = kcal,
+                Protein = protein,
+                Carb = carb,
+                Fat = fat
+            };
+
+            //MealsCreator mealsCreator = new MealsCreator(_context);
+            //mealsCreator.generateMealsToDB();
+            //ICollection<Day> dailyMeals = new List<Day>();
+
+
+            ICollection<Day> dailyMeals;
+            if(command.UseCustomMethod == true)
+            {
+                CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(_context,
+                    preferences, constraints);
+                dailyMeals = mealsGenerator.getDailyMeals();
+            } else
+            {
+                GoogleBasedMealsGenerator mealsGenerator = new GoogleBasedMealsGenerator(_context,
+                    preferences, constraints);
+                dailyMeals = mealsGenerator.getDailyMeals();
+            }
+
+
+            MealplanData mealplanData = new MealplanData
+            {
+                Gender = command.Gender,
+                Target = command.Target,
+                Height = command.Height,
+                Weight = command.Weight,
+                Age = command.Age,
+                HeightUnit = command.HeightUnit,
+                WeightUnit = command.WeightUnit,
+                Body = command.Body,
+                UsualActivity = command.UsualActivity,
+                PhisicalActivity = command.PhisicalActivity,
+                Sleep = command.Sleep,
+                WaterIntake = command.WaterIntake,
+                MealplanType = command.MealplanType,
+                MealsCount = command.MealsCount
+            };
+
+            Mealplan mealplan = new Mealplan
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserId = command.UserId,
                 Calories = kcal,
                 Protein = protein,
                 Fat = fat,
-                Carb = carb
+                Carb = carb,
+                DailyMeals = dailyMeals,
+                MealplanData = mealplanData
             };
+
+
+            if (command.UserId != null)
+            {
+                _context.Mealplans.Add(mealplan);
+                _context.SaveChanges();
+            }
+
+            return mealplan.toDTO();
         }
 
         private static double calculateRmb(CreateMealplanCommand command)

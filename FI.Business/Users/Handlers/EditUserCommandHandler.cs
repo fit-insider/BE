@@ -26,8 +26,6 @@ namespace FI.Business.Users.Handlers
         {
             await ValidateIfUserExists(command.Id);
             
-            UpdateUserPassword(command);
-            
             UpdateUserDetails(command);
             
             _context.Users.Update(_dbUser);
@@ -36,7 +34,7 @@ namespace FI.Business.Users.Handlers
             return command.ToUserDetails();
         }
         
-        private async Task ValidateIfUserExists(int userId)
+        private async Task ValidateIfUserExists(string userId)
         {
             _dbUser = await _context.Users
                 .Include(u => u.Detail)
@@ -47,26 +45,10 @@ namespace FI.Business.Users.Handlers
             }
         }
 
-        private void UpdateUserPassword(EditUserCommand command)
-        {
-            if (command.OldPassword is null or "") return;
-            
-            ValidateIfOldAndExistingPasswordsMatch(command.OldPassword);
-            _dbUser.Detail.Password = command.NewPassword;
-        }
-
         private void UpdateUserDetails(EditUserCommand command)
         {
             _dbUser.Detail.FirstName = command.FirstName;
             _dbUser.Detail.LastName = command.LastName;
-        }
-
-        private void ValidateIfOldAndExistingPasswordsMatch(string oldPassword)
-        {
-            if (!_dbUser.Detail.Password.Equals(oldPassword))
-            {
-                throw new CustomException(ErrorCode.EditUser_Password, "Old password must match with existing!");
-            }
         }
     }
 }

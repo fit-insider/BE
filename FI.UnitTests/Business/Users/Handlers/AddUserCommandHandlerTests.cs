@@ -56,17 +56,17 @@ namespace FI.UnitTests.Business.Users.Handlers
             {
                 new User
                 {
-                    Id = 1,
+                    Id = "1",
                     Email = "one@email.com"
                 },
                 new User
                 {
-                    Id = 2,
+                    Id = "2",
                     Email = "two@email.com"
                 },
                 new User
                 {
-                    Id = 3,
+                    Id = "3",
                     Email = "three@email.com"
                 }
             };

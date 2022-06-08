@@ -47,7 +47,7 @@ namespace FI.UnitTests.Business.Users.Handlers
         public void WhenUserDoesNotExist_ShouldThrowCustomException()
         {
             var cex = new CustomException(ErrorCode.GetUserDetails_User, "User does not exist!");
-            _request.UserId = 2;
+            _request.UserId = "2";
 
             Func<Task> action = async () => await _handler.Handle(_request, new CancellationToken());
 
@@ -58,12 +58,12 @@ namespace FI.UnitTests.Business.Users.Handlers
         {
             var user = new User
             {
-                Id = 1,
+                Id = "1",
                 Email = "john@doe.com",
                 Detail = new DataModel.UserDetail
                 {
-                    Id = 1,
-                    UserId = 1,
+                    Id = "1",
+                    UserId = "1",
                     FirstName = "John",
                     LastName = "Doe",
                     Password = "johndoepass",
@@ -84,7 +84,7 @@ namespace FI.UnitTests.Business.Users.Handlers
         {
             _request = new GetUserDetailsQuery
             {
-                UserId = 1
+                UserId = "1"
             };
         }
 
@@ -95,7 +95,7 @@ namespace FI.UnitTests.Business.Users.Handlers
                 Email = "john@doe.com",
                 Detail = new BusinessModel.UserDetail
                 {
-                    UserId = 1,
+                    UserId = "1",
                     FirstName = "John",
                     LastName = "Doe"
                 }

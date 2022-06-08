@@ -4,7 +4,7 @@ namespace FI.API.Requests.Meals
 {
     public class CreateMealplanRequest
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string Gender { get; set; }
         public string Target { get; set; }
         public double Height { get; set; }
@@ -19,15 +19,14 @@ namespace FI.API.Requests.Meals
         public int WaterIntake { get; set; }
         public string MealplanType { get; set; }
         public int MealsCount { get; set; }
+        public string[] ExcludedFoods { get; set; }
+        public bool UseCustomMethod { get; set; }
     }
 
     public class CreateMealplanRequestValidator : AbstractValidator<CreateMealplanRequest>
     {
         public CreateMealplanRequestValidator()
         {
-            RuleFor(x => x.UserId)
-                .GreaterThan(0);
-
             RuleFor(x => x.Gender)
                 .NotEmpty().WithMessage("Invalid gender!")
                 .Matches(@"^(male|female)$").WithMessage("Invalid gender!");
@@ -78,7 +77,7 @@ namespace FI.API.Requests.Meals
 
             RuleFor(x => x.MealplanType)
                .NotEmpty().WithMessage("Invalid mealplan type!")
-               .Matches(@"^(general|vegetarian)$").WithMessage("Invalid mealplan type!");
+               .Matches(@"^(general|vegetarian|vegan)$").WithMessage("Invalid mealplan type!");
 
             RuleFor(x => x.MealsCount)
            .LessThanOrEqualTo(6).WithMessage("Invalid meals count!")

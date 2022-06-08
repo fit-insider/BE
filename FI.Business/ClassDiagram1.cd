@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FI.Business.Meals.CustomSimplexMealsGenerator">
+    <Position X="7.75" Y="2" Width="2.5" />
+    <Members>
+      <Field Name="_context" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAEAAgAQAAAEBAAAAAAAAIAAAAAAgAAAAAAIAJAAAAA=</HashCode>
+      <FileName>Meals\CustomSimplexMealsGenerator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FI.Business.Meals.GoogleBasedMealsGenerator">
+    <Position X="7.75" Y="3.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAEAAgAQAAAEBAAAAAAAAIAAAAAAgAAAAAAIAJAAAAA=</HashCode>
+      <FileName>Meals\GoogleBasedMealsGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.MealplanGenerator">
+    <Position X="7.75" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAABAAQgAAAAAQAAAAAAAAAAABIAYAIAAA=</HashCode>
+      <FileName>Meals\MealplanGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.Utils.SolverResult">
+    <Position X="10.5" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAQkAgAAAAQAAAAAAAAAAAAAAAIAAAAAIAAAAAAA=</HashCode>
+      <FileName>Meals\Utils\SolverResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.Utils.MealsGenerator">
+    <Position X="9.5" Y="5.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAgAAAAADAAAIAAAICAA=</HashCode>
+      <FileName>Meals\Utils\MealsGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.Utils.MealPreferences">
+    <Position X="7.75" Y="5.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Meals\Utils\MealPreferences.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.Utils.DailyConstraints">
+    <Position X="6" Y="5.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAQEAgAAgAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Meals\Utils\DailyConstraints.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.SimplexImplementation.Service.Simplex" Collapsed="true">
+    <Position X="5.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIAIAAAAEgAAAAIAgAEQCAQAAAABAAAA0EAkAIAgBA=</HashCode>
+      <FileName>Meals\SimplexImplementation\Service\Simplex.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.SimplexImplementation.Model.SimplexSnap" Collapsed="true">
+    <Position X="5.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAACAAAgAABAAAAwAAkAIAAgA=</HashCode>
+      <FileName>Meals\SimplexImplementation\Model\SimplexSnap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.SimplexImplementation.Model.SimplexIndexResult" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Meals\SimplexImplementation\Model\SimplexIndexResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.SimplexImplementation.Model.Problem" Collapsed="true">
+    <Position X="5.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAgAAAAAAAAAEUAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Meals\SimplexImplementation\Model\Problem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.SimplexImplementation.Model.Function" Collapsed="true">
+    <Position X="5.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAACAAAAAAAAEAAA=</HashCode>
+      <FileName>Meals\SimplexImplementation\Model\Function.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FI.Business.Meals.SimplexImplementation.Model.Constraint" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAEAAA=</HashCode>
+      <FileName>Meals\SimplexImplementation\Model\Constraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

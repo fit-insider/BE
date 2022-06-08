@@ -5,6 +5,6 @@ namespace FI.Business.Users.Queries
 {
     public class GetUserDetailsQuery : IRequest<UserIdentifier>
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

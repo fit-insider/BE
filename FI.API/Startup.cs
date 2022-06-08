@@ -13,6 +13,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FluentValidation.AspNetCore;
 using FI.API.Middleware;
+using Microsoft.OpenApi.Models;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 namespace FI.API
 {
@@ -39,6 +44,11 @@ namespace FI.API
                 options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"), op => op.MigrationsAssembly("FI.Migrations"));
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fit Insider API", Version = "v1" });
+            });
+
             services.AddControllers();
             services.AddMediatR(typeof(GetVersionQueryHandler));
 
@@ -48,6 +58,8 @@ namespace FI.API
 
             services.RegisterServices();
             services.AddRouting(options => options.LowercaseUrls = true);
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +68,13 @@ namespace FI.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("v1/swagger.json", "Fit Insider API V1");
+                });
             }
 
             app.UseMiddleware<CustomExceptionMiddleware>();
@@ -67,6 +86,7 @@ namespace FI.API
             }
 
             app.UseDefaultFiles();
+
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
@@ -78,6 +98,7 @@ namespace FI.API
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

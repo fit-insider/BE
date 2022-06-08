@@ -1,11 +1,11 @@
-﻿using FI.Data.Models.Meals;
+﻿using FI.Data.Models.Meals.DTOs;
 using MediatR;
 
 namespace FI.Business.Meals.Queries
 {
-    public class GetMealplanQuery : IRequest<Mealplan>
+    public class GetMealplanQuery : IRequest<MealplanDTO>
     {
-        public int UserId { get; set; }
-        public int MealplanId { get; set; }
+        public string UserId { get; set; }
+        public string MealplanId { get; set; }
     }
 }
