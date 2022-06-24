@@ -14,6 +14,10 @@ namespace FI.API.Requests.Users
     {
         public ChangePasswordRequestValidator()
         {
+            RuleFor(x => x.OldPassword).NotEmpty().WithMessage("Old password name can not be empty!");
+            RuleFor(x => x.NewPassword).NotEmpty().WithMessage("Old password name can not be empty!");
+            RuleFor(x => x.ConfirmPassword).NotEmpty().WithMessage("Old password name can not be empty!");
+
             When(x => x.OldPassword != "" || x.NewPassword != "" || x.ConfirmPassword != "", () =>
             {
                 RuleFor(x => x.OldPassword)

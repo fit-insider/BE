@@ -12,6 +12,11 @@ namespace FI.Data.Models.Meals
 
         public DayDTO toDTO()
         {
+            if(Meals == null)
+            {
+                Meals = new List<Meal>();
+            }
+
             return new DayDTO
             {
                 Id = Id,

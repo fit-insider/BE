@@ -37,7 +37,7 @@ namespace FI.Business.Users.Handlers
                 throw new CustomException(ErrorCode.Login_Credentials, "Wrong credentials.");
             }
 
-            if (_user.Detail.Password != password)
+            if(!PasswordUtils.Verify(_user.Detail.Password, password))
             {
                 throw new CustomException(ErrorCode.Login_Credentials, "Wrong credentials.");
             }

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FI.Business.Meals.Queries;
 using FI.Data;
+using FI.Data.Models.Meals;
 using FI.Data.Models.Meals.DTOs;
 using FI.Data.Models.Users;
 using FI.Infrastructure.Models.Exceptions;
@@ -29,12 +30,12 @@ namespace FI.Business.Meals.Handlers
             List<MealplanDTO> mealplans = _context.Mealplans
                 .Where(mp => mp.UserId == request.UserId)
                 .Include(mealplan => mealplan.MealplanData)
-                .Include(mealplan => mealplan.DailyMeals)
-                    .ThenInclude(day => day.Meals)
-                        .ThenInclude(meal => meal.Ingredients)
-                .Include(mealplan => mealplan.DailyMeals)
-                    .ThenInclude(day => day.Meals)
-                        .ThenInclude(meal => meal.Nutrients)
+                //.Include(mealplan => mealplan.DailyMeals)
+                //    .ThenInclude(day => day.Meals)
+                //        .ThenInclude(meal => meal.Ingredients)
+                //.Include(mealplan => mealplan.DailyMeals)
+                //    .ThenInclude(day => day.Meals)
+                //        .ThenInclude(meal => meal.Nutrients)
                 .Select(meal => meal.toDTO())
                 .ToList();
 

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FI.Business.Users.Commands;
@@ -21,6 +23,8 @@ namespace FI.Business.Users.Handlers
         public async Task<bool> Handle(AddUserCommand request, CancellationToken token)
         {
             await ValidateIfUserExists(request.Email);
+
+            request.Password = PasswordUtils.Hash(request.Password);
 
             _context.Users.Add(request.ToUser());
 

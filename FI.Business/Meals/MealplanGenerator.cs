@@ -52,12 +52,13 @@ namespace FI.Business.Meals
 
 
             ICollection<Day> dailyMeals;
-            if(command.UseCustomMethod == true)
+            if (command.UseCustomMethod == true)
             {
                 CustomSimplexMealsGenerator mealsGenerator = new CustomSimplexMealsGenerator(_context,
                     preferences, constraints);
                 dailyMeals = mealsGenerator.getDailyMeals();
-            } else
+            }
+            else
             {
                 GoogleBasedMealsGenerator mealsGenerator = new GoogleBasedMealsGenerator(_context,
                     preferences, constraints);

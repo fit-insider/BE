@@ -42,7 +42,7 @@ namespace FI.Business.Users.Handlers
             if (command.OldPassword is null or "") return;
 
             ValidateIfOldAndExistingPasswordsMatch(command.OldPassword);
-            _dbUser.Detail.Password = command.NewPassword;
+            _dbUser.Detail.Password = PasswordUtils.Hash(command.NewPassword);
         }
 
         private async Task ValidateIfUserExists(string userId)
@@ -58,7 +58,7 @@ namespace FI.Business.Users.Handlers
 
         private void ValidateIfOldAndExistingPasswordsMatch(string oldPassword)
         {
-            if (!_dbUser.Detail.Password.Equals(oldPassword))
+            if (!PasswordUtils.Verify(_dbUser.Detail.Password, oldPassword))
             {
                 throw new CustomException(ErrorCode.EditUser_Password, "Old password must match with existing!");
             }

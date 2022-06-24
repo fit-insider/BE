@@ -15,7 +15,7 @@ namespace FI.Business.Meals
         private MealPreferences _preferences;
         private DailyConstraints _constraints;
 
-        private const int NUM_SAMPLES = 1500;
+        private const int NUM_SAMPLES = 1000;
         private const int TOP_SAMPLES_TO_KEEP = 7;
         private const double CALORIE_EPSILON = 0.2;
 
@@ -142,11 +142,20 @@ namespace FI.Business.Meals
                 dailyMeals.Add(lunchMeals.ElementAt(random.Next(lunchMeals.Count)));
             }
 
-            for (int i = 4; i <= _preferences.MealsCount; i++)
+            if (_preferences.MealsCount >= 4)
             {
-                dailyMeals.Add(snackMeals.ElementAt(random.Next(snackMeals.Count)));
+                dailyMeals.Add(lunchMeals.ElementAt(random.Next(lunchMeals.Count)));
             }
 
+            if (_preferences.MealsCount >= 5)
+            {
+                dailyMeals.Add(lunchMeals.ElementAt(random.Next(dinnerMeals.Count)));
+            }
+
+            if (_preferences.MealsCount == 6)
+            {
+                dailyMeals.Add(lunchMeals.ElementAt(random.Next(snackMeals.Count)));
+            }
 
             return new Day()
             {

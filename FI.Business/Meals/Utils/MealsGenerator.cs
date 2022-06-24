@@ -43,10 +43,7 @@ namespace FI.Business.Meals.Utils
         {
             Random rand = new Random(Guid.NewGuid().GetHashCode());
 
-            var meals = _context.BaseMeals
-                .Include(m => m.Ingredients)
-                .Include(m => m.Nutrients)
-                .Where(m => m.MealTypes.Contains(type));
+            var meals = _context.BaseMeals.Where(m => m.MealTypes.Contains(type));
   
 
             if (_preferences.Type != "general")
@@ -62,14 +59,20 @@ namespace FI.Business.Meals.Utils
                 }
             }
 
-            var allMeals = meals.Select(m => m.toMeal());
-            ICollection<Meal> result = new List<Meal>();
-            for(int i = 0; i < 20; i++)
+            var mealIds = meals.Select(m => m.Id).ToArray();
+            List<string> chosenIds = new List<string>();
+            for (int i = 0; i < 50; i++)
             {
-                result.Add(allMeals.Skip(rand.Next(0, allMeals.Count())).First());
+                chosenIds.Add(mealIds.ElementAt(rand.Next(mealIds.Length)));
             }
 
-            return result;
+            var finalMeals = _context.BaseMeals
+                .Where(m => chosenIds.Contains(m.Id))
+                .Include(m => m.Ingredients)
+                .Include(m => m.Nutrients)
+                .Select(m => m.toMeal()).ToList();
+
+            return finalMeals;
         }
 
     }
